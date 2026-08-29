@@ -190,7 +190,7 @@ export function ProjectSection({
                 <ProjectCopy text={project.description} />
               </RevealOnScroll>
 
-              <RevealOnScroll className="flex flex-col gap-6">
+              <RevealOnScroll className="flex w-full max-w-[440px] flex-col gap-5 md:max-w-none">
                 <VideoRow videos={project.videos} />
                 <div className="flex flex-col gap-3">
                   <RequestProposalButton
