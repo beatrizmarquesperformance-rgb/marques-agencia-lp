@@ -1,0 +1,82 @@
+// Fixed content schema. The admin edits VALUES only — never structure.
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  order       Int      @default(0)
+  enabled     Boolean  @default(true)
+  comingSoon  Boolean  @default(false)
+  tagline     String?  // short all-caps line under the logo
+  description String   @default("") // paragraph copy, \n\n between paragraphs
+
+  // hero
+  heroImage   String?  // URL (Blob). null => themed placeholder
+  heroAlt     String   @default("")
+  logoImage   String?  // project lockup PNG/SVG URL
+
+  // theme tokens
+  bg          String   @default("#0d0d0d")
+  primary     String   @default("#ffffff")
+  secondary   String   @default("#888888")
+  text        String   @default("#ffffff")
+  accent      String   @default("#ffffff")
+
+  socials  Social[]
+  photos   GalleryPhoto[]
+  videos   Video[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Social {
+  id        String  @id @default(cuid())
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  platform  String  // instagram | tiktok | facebook | youtube | website
+  url       String
+  order     Int     @default(0)
+}
+
+model GalleryPhoto {
+  id        String  @id @default(cuid())
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  image     String  // URL
+  alt       String  @default("")
+  order     Int     @default(0)
+}
+
+model Video {
+  id        String  @id @default(cuid())
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  provider  String  @default("mp4") // mp4 | mux | youtube | vimeo | cloudflare
+  src       String  // URL or playback id
+  poster    String? // poster image URL
+  title     String  @default("")
+  order     Int     @default(0)
+}
+
+model PlayedAt {
+  id      String  @id @default(cuid())
+  name    String
+  logo    String? // URL
+  url     String?
+  order   Int     @default(0)
+  enabled Boolean @default(true)
+}
+
+model Setting {
+  key   String @id
+  value String
+}
