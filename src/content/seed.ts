@@ -19,8 +19,8 @@ export const seedContent: SiteContent = {
     contactEmail: null,
     bandsintownArtist: null,
     heroVideoProvider: "mp4",
-    heroVideoSrc: null, // general hero video — pending real asset
-    heroVideoPoster: null,
+    heroVideoSrc: "/media/hero.mp4",
+    heroVideoPoster: "/media/hero-poster.webp",
     heroHeadline: "CINCO PROJETOS. UMA FESTA DO INÍCIO AO FIM.",
     heroSubhead:
       "Animação e espetáculo para festivais, municípios, marcas, clubes e eventos privados.",
@@ -46,12 +46,16 @@ Os seus sets destacam-se pelos mashups e versões diferenciadoras, introduções
 Ao longo do seu percurso, já marcou presença em eventos a convite de grandes nomes e organizações, como o ROCK IN RIO, RFM SOMNII, VIAGENS DE FINALISTAS, bem como em eventos promovidos por vários municípios de norte a sul de Portugal continental e ilhas.
 
 Com uma identidade própria e uma presença cada vez mais consolidada no panorama nacional, DJ Marques apresenta um espetáculo DINÂMICO, VERSÁTIL E PENSADO PARA TRANSFORMAR CADA EVENTO NUMA VERDADEIRA FESTA.`,
-      heroImage: null,
-      heroAlt: "DJ Marques a atuar perante uma multidão",
-      logoImage: null,
+      heroImage: "/media/marques/hero.webp",
+      heroAlt: "Retrato de DJ Marques",
+      logoImage: "/media/marques/logo.webp",
       heroCutout: null,
       heroCutoutSide: "left",
-      promoVideo: { provider: "mp4", src: null, poster: null },
+      promoVideo: {
+        provider: "mp4",
+        src: "/media/marques/promo.mp4",
+        poster: "/media/marques/promo-poster.webp",
+      },
       theme: {
         bg: "#22cfe4",
         primary: "#0b0b0b",
@@ -60,11 +64,22 @@ Com uma identidade própria e uma presença cada vez mais consolidada no panoram
         accent: "#0b0b0b",
       },
       socials: [], // real Instagram URL pending
-      photos: Array.from({ length: 6 }, (_, i) => ({
-        image: null,
-        alt: `Fotografia ${i + 1} de DJ Marques`,
-      })),
-      videos: [],
+      photos: [
+        { image: "/media/marques/g1.webp", alt: "DJ Marques — sessão de estúdio" },
+        { image: "/media/marques/g2.webp", alt: "DJ Marques — retrato" },
+        { image: "/media/marques/g3.webp", alt: "DJ Marques" },
+        { image: "/media/marques/g4.webp", alt: "DJ Marques nos bastidores" },
+        { image: "/media/marques/g5.webp", alt: "Marques e Maycon" },
+        { image: "/media/marques/g6.webp", alt: "Marques e Maycon" },
+      ],
+      videos: [
+        {
+          provider: "mp4",
+          src: "/media/marques/v1.mp4",
+          poster: "/media/marques/v1-poster.webp",
+          title: "Marques — Festa de Peniche",
+        },
+      ],
     },
     {
       slug: "pimba-a-bruta",
@@ -86,12 +101,16 @@ Ao longo das 2 horas de espetáculo, não faltam dinâmicas como o Jogo da Baliz
 Com uma forte identidade visual, decoração e elementos próprios de palco, o Pimba à Bruta transforma cada atuação num verdadeiro arraial, pensado para CANTAR, DANÇAR, RIR E FAZER FESTA DO INÍCIO AO FIM.
 
 NO PIMBA À BRUTA, A VERGONHA E A INDIFERENÇA FICAM À ENTRADA. CÁ DENTRO, É FESTA À BRUTA! 🇵🇹🍻`,
-      heroImage: null,
+      heroImage: "/media/pimba/hero.webp",
       heroAlt: "Multidão num arraial do Pimba à Bruta",
-      logoImage: null,
+      logoImage: "/media/pimba/logo.webp",
       heroCutout: null,
       heroCutoutSide: "left",
-      promoVideo: { provider: "mp4", src: null, poster: null },
+      promoVideo: {
+        provider: "mp4",
+        src: "/media/pimba/promo.mp4",
+        poster: "/media/pimba/promo-poster.webp",
+      },
       theme: {
         bg: "#0e7a3f",
         bgSplit: "#e2241a",
@@ -101,11 +120,19 @@ NO PIMBA À BRUTA, A VERGONHA E A INDIFERENÇA FICAM À ENTRADA. CÁ DENTRO, É 
         accent: "#ffe14d",
       },
       socials: [], // Instagram + TikTok URLs pending
-      photos: Array.from({ length: 4 }, (_, i) => ({
-        image: null,
-        alt: `Fotografia ${i + 1} do Pimba à Bruta`,
-      })),
-      videos: [],
+      photos: [
+        { image: "/media/pimba/g1.webp", alt: "Pimba à Bruta — bastidores" },
+        { image: "/media/pimba/g2.webp", alt: "Pimba à Bruta ao vivo" },
+        { image: "/media/pimba/g3.webp", alt: "Pimba à Bruta — atuação" },
+      ],
+      videos: [
+        {
+          provider: "mp4",
+          src: "/media/pimba/v1.mp4",
+          poster: "/media/pimba/v1-poster.webp",
+          title: "Pimba à Bruta — Aftermovie",
+        },
+      ],
     },
     {
       slug: "funkiss",
@@ -123,12 +150,18 @@ Dos grandes hits do Funk Brasileiro aos temas comerciais que todos sabem cantar,
 A Funkiss ganha ainda mais força com os seus insufláveis em formato de lábios (KISS), gomas gigantes e sticks insufláveis, aliados a jogos, desafios e dinâmicas com o público, tornando cada atuação mais interativa, divertida e imprevisível.
 
 Ao longo do seu percurso, a FUNKISS já marcou presença em vários festivais, eventos promovidos por municípios e comissões de festas, levando a sua energia a palcos de norte a sul de Portugal, incluindo as ilhas. Um percurso que tem permitido ao projeto chegar a diferentes públicos e afirmar a sua identidade em eventos de diferentes dimensões.`,
-      heroImage: null,
+      heroImage: "/media/funkiss/hero.webp",
       heroAlt: "Atuação da Funkiss com público",
-      logoImage: null, // NOTE: real FUNKISS lockup pending (Dropbox one marked "não usar")
+      // NOTE: name is FUNKISS (brief §28). The KISSCAM lockup exists at
+      // /media/funkiss/logo-kisscam.webp if a lockup is ever wanted here.
+      logoImage: null,
       heroCutout: null,
       heroCutoutSide: "right",
-      promoVideo: { provider: "mp4", src: null, poster: null },
+      promoVideo: {
+        provider: "mp4",
+        src: "/media/funkiss/promo.mp4",
+        poster: "/media/funkiss/promo-poster.webp",
+      },
       theme: {
         bg: "#ff2e9a",
         primary: "#ffffff",
@@ -137,11 +170,20 @@ Ao longo do seu percurso, a FUNKISS já marcou presença em vários festivais, e
         accent: "#ffd23f",
       },
       socials: [],
-      photos: Array.from({ length: 4 }, (_, i) => ({
-        image: null,
-        alt: `Fotografia ${i + 1} da Funkiss`,
-      })),
-      videos: [],
+      photos: [
+        { image: "/media/funkiss/g1.webp", alt: "Funkiss — sessão de estúdio" },
+        { image: "/media/funkiss/g2.webp", alt: "Funkiss — sessão de estúdio" },
+        { image: "/media/funkiss/g3.webp", alt: "Funkiss ao vivo" },
+        { image: "/media/funkiss/g4.webp", alt: "Funkiss ao vivo" },
+      ],
+      videos: [
+        {
+          provider: "mp4",
+          src: "/media/funkiss/v1.mp4",
+          poster: "/media/funkiss/v1-poster.webp",
+          title: "Funkiss — Aftermovie",
+        },
+      ],
     },
     {
       slug: "gangbangers",
@@ -161,12 +203,18 @@ Composta por DJ, Host, bailarinas e até Live Performances, a GANGBANGERS é uma
 Mais do que uma festa, a GANGBANGERS vive da reação do público: cantar, dançar, saltar e voltar, por alguns minutos, às memórias com que crescemos.
 
 NÃO IMPORTA A ÉPOCA. NÃO IMPORTA O GÉNERO. SE É UM BANGER, É GANGBANGERS. 💜🔥`,
-      heroImage: null,
-      heroAlt: "Público numa festa Gangbangers",
-      logoImage: null,
+      // hero + gallery are stills pulled from the aftermovie (no press photos
+      // were supplied for Gangbangers) — replace when real photos arrive.
+      heroImage: "/media/gangbangers/hero.webp",
+      heroAlt: "Festa Gangbangers",
+      logoImage: "/media/gangbangers/logo.webp",
       heroCutout: null,
       heroCutoutSide: "left",
-      promoVideo: { provider: "mp4", src: null, poster: null },
+      promoVideo: {
+        provider: "mp4",
+        src: "/media/gangbangers/promo.mp4",
+        poster: "/media/gangbangers/promo-poster.webp",
+      },
       theme: {
         bg: "#1f2f7a",
         primary: "#ff4fbf",
@@ -175,8 +223,20 @@ NÃO IMPORTA A ÉPOCA. NÃO IMPORTA O GÉNERO. SE É UM BANGER, É GANGBANGERS. 
         accent: "#37c8ff",
       },
       socials: [],
-      photos: [], // NONE available in Dropbox — pending
-      videos: [],
+      photos: [
+        { image: "/media/gangbangers/g1.webp", alt: "Festa Gangbangers" },
+        { image: "/media/gangbangers/g2.webp", alt: "Público na Gangbangers" },
+        { image: "/media/gangbangers/g3.webp", alt: "Gangbangers ao vivo" },
+        { image: "/media/gangbangers/g4.webp", alt: "DJ na Gangbangers" },
+      ],
+      videos: [
+        {
+          provider: "mp4",
+          src: "/media/gangbangers/v1.mp4",
+          poster: "/media/gangbangers/v1-poster.webp",
+          title: "Gangbangers",
+        },
+      ],
     },
     {
       slug: "zara-g",

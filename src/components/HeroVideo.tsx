@@ -16,6 +16,9 @@ export function HeroVideo({ settings }: { settings: SiteSettings }) {
           src={settings.heroVideoSrc}
           poster={settings.heroVideoPoster}
           mode="background"
+          eager
+          posterPriority
+          posterSizes="100vw"
           label="Vídeo de apresentação"
           className="h-full w-full"
         />

@@ -40,6 +40,7 @@ export function CategoryRail({ projects }: { projects: Project[] }) {
                       poster={p.promoVideo.poster ?? p.heroImage}
                       mode="background"
                       label={p.name}
+                      posterSizes="(max-width: 1024px) 74vw, 20vw"
                       className="h-full w-full"
                     />
                   ) : p.heroImage ? (

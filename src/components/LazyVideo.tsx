@@ -9,34 +9,41 @@ type Mode = "background" | "click";
 
 /**
  * One video primitive for the whole site.
- *  - "background": muted, looping, autoplays only while on screen (IntersectionObserver),
- *    pauses off screen. Reduced motion → stays on the poster.
+ *  - "background": muted, looping. Autoplays while on screen (or immediately
+ *    when `eager`), pauses off screen. Reduced motion → stays on the poster.
  *  - "click": poster + play button; loads and plays with controls on demand.
- * Always shows the poster first + a loading state until the media is ready, so there
- * is no layout shift (the wrapper owns the aspect ratio).
+ * The poster stays visible until the video is actually playing, so there is
+ * no black flash and no layout shift (the wrapper owns the aspect ratio).
  */
 export function LazyVideo({
   provider,
   src,
   poster,
   mode = "background",
+  eager = false,
   className = "",
   label,
   fit = "cover",
+  posterPriority = false,
+  posterSizes = "(max-width: 768px) 90vw, 40vw",
 }: {
   provider: VideoProvider;
   src: string | null;
   poster: string | null;
   mode?: Mode;
+  eager?: boolean;
   className?: string;
   label?: string;
   fit?: "cover" | "contain";
+  posterPriority?: boolean;
+  posterSizes?: string;
 }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [active, setActive] = useState(false); // user asked to play (click mode)
-  const [inView, setInView] = useState(false);
-  const [ready, setReady] = useState(false);
+  const [inView, setInView] = useState(eager);
+  const [playing, setPlaying] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
@@ -44,39 +51,37 @@ export function LazyVideo({
   }, []);
 
   useEffect(() => {
+    if (eager) return;
     const el = wrapRef.current;
     if (!el) return;
-    const io = new IntersectionObserver(
-      ([e]) => setInView(e.isIntersecting),
-      { threshold: 0.25 },
-    );
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), {
+      threshold: 0.2,
+    });
     io.observe(el);
     return () => io.disconnect();
-  }, []);
+  }, [eager]);
 
   const iframe = usesIframe(provider);
-  const shouldPlay =
-    mode === "click" ? active : inView && !reduced && Boolean(src);
+  const wantVideo =
+    mode === "click" ? active : (inView || eager) && !reduced && Boolean(src);
 
-  // native <video> play/pause follows visibility in background mode
   useEffect(() => {
     const v = videoRef.current;
     if (!v || iframe) return;
-    if (shouldPlay) {
+    if (wantVideo) {
+      setLoading(true);
       v.play().catch(() => {});
     } else {
       v.pause();
+      setPlaying(false);
     }
-  }, [shouldPlay, iframe]);
+  }, [wantVideo, iframe]);
 
-  const showPoster = !ready || (mode === "click" && !active);
+  const objectFit = fit === "cover" ? "object-cover" : "object-contain";
+  const showPoster = mode === "click" ? !active : !playing;
 
   return (
-    <div
-      ref={wrapRef}
-      className={`relative overflow-hidden bg-neutral-900 ${className}`}
-    >
-      {/* Poster + loading layer */}
+    <div ref={wrapRef} className={`relative overflow-hidden bg-neutral-900 ${className}`}>
       {(showPoster || !src) && (
         <div className="absolute inset-0">
           {poster ? (
@@ -84,21 +89,20 @@ export function LazyVideo({
               src={poster}
               alt={label ?? ""}
               fill
-              sizes="(max-width: 768px) 90vw, 40vw"
-              className={fit === "cover" ? "object-cover" : "object-contain"}
-              priority={false}
+              sizes={posterSizes}
+              className={objectFit}
+              priority={posterPriority}
             />
           ) : (
             <div className="absolute inset-0 bg-[linear-gradient(140deg,#1b1b1e,#0d0d0f)]" />
           )}
-          {src && !ready && shouldPlay && (
+          {src && loading && !playing && wantVideo && (
             <span className="absolute bottom-3 right-3 h-5 w-5 animate-spin rounded-full border-2 border-white/40 border-t-white" />
           )}
         </div>
       )}
 
-      {/* Media */}
-      {src && shouldPlay && iframe && (
+      {src && wantVideo && iframe && (
         <iframe
           src={embedSrc(
             { provider, src },
@@ -109,11 +113,11 @@ export function LazyVideo({
           title={label ?? "Vídeo"}
           allow="autoplay; fullscreen; picture-in-picture"
           allowFullScreen
-          onLoad={() => setReady(true)}
+          onLoad={() => setPlaying(true)}
           className="absolute inset-0 h-full w-full"
         />
       )}
-      {src && shouldPlay && !iframe && (
+      {src && wantVideo && !iframe && (
         <video
           ref={videoRef}
           src={nativeSrc({ provider, src }, mode === "click" ? "high" : "medium")}
@@ -122,15 +126,16 @@ export function LazyVideo({
           loop={mode === "background"}
           controls={mode === "click"}
           playsInline
-          preload="metadata"
-          onLoadedData={() => setReady(true)}
-          className={`absolute inset-0 h-full w-full ${
-            fit === "cover" ? "object-cover" : "object-contain"
-          }`}
+          preload={eager ? "auto" : "metadata"}
+          onPlaying={() => {
+            setPlaying(true);
+            setLoading(false);
+          }}
+          onWaiting={() => setLoading(true)}
+          className={`absolute inset-0 h-full w-full ${objectFit}`}
         />
       )}
 
-      {/* Click-to-play affordance */}
       {mode === "click" && !active && (
         <button
           type="button"
