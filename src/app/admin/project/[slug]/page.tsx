@@ -8,6 +8,7 @@ import {
   replaceVideos,
 } from "@/lib/admin-actions";
 import { RowsEditor } from "@/components/admin/RowsEditor";
+import { ImageField } from "@/components/admin/ImageField";
 
 const COLORS = ["bg", "primary", "secondary", "text", "accent"] as const;
 
@@ -45,8 +46,28 @@ export default async function ProjectEditPage({
             defaultValue={p.tagline ?? ""}
           />
           <Field name="heroAlt" label="Descrição da imagem hero (alt)" defaultValue={p.heroAlt} />
-          <Field name="heroImage" label="URL imagem hero" defaultValue={p.heroImage ?? ""} wide />
-          <Field name="logoImage" label="URL logótipo" defaultValue={p.logoImage ?? ""} wide />
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          <ImageField name="heroImage" label="Imagem hero" defaultValue={p.heroImage ?? ""} />
+          <ImageField name="logoImage" label="Logótipo (PNG/SVG)" defaultValue={p.logoImage ?? ""} />
+          <ImageField
+            name="heroCutout"
+            label="Recorte (figura que atravessa a linha rasgada)"
+            defaultValue={p.heroCutout ?? ""}
+            hint="PNG com fundo transparente"
+          />
+          <label className="flex flex-col text-xs text-neutral-400">
+            Lado do recorte
+            <select
+              name="heroCutoutSide"
+              defaultValue={p.heroCutoutSide}
+              className="mt-1 w-40 bg-neutral-950 px-2 py-1 text-sm text-white"
+            >
+              <option value="left">Esquerda</option>
+              <option value="right">Direita</option>
+            </select>
+          </label>
         </div>
 
         <label className="block text-xs text-neutral-400">
@@ -122,7 +143,7 @@ export default async function ProjectEditPage({
             .filter((x) => x.image)
             .map((x) => ({ image: x.image ?? "", alt: x.alt }))}
           fields={[
-            { name: "image", label: "URL", type: "url", wide: true },
+            { name: "image", label: "Imagem", type: "image", wide: true },
             { name: "alt", label: "Alt (acessibilidade)", wide: true },
           ]}
         />
@@ -151,7 +172,7 @@ export default async function ProjectEditPage({
               options: ["mp4", "mux", "youtube", "vimeo", "cloudflare"],
             },
             { name: "src", label: "URL / ID", wide: true },
-            { name: "poster", label: "Poster URL", type: "url", wide: true },
+            { name: "poster", label: "Poster", type: "image", wide: true },
             { name: "title", label: "Título", wide: true },
           ]}
         />

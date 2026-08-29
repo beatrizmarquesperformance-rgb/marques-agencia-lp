@@ -39,6 +39,8 @@ export async function saveProject(slug: string, fd: FormData) {
       heroAlt: str(fd, "heroAlt"),
       heroImage: str(fd, "heroImage") || null,
       logoImage: str(fd, "logoImage") || null,
+      heroCutout: str(fd, "heroCutout") || null,
+      heroCutoutSide: str(fd, "heroCutoutSide") === "right" ? "right" : "left",
       enabled: bool(fd, "enabled"),
       comingSoon: bool(fd, "comingSoon"),
       order: int(fd, "order"),

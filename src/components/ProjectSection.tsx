@@ -59,6 +59,10 @@ export function ProjectSection({
 }) {
   const t = project.theme;
   const priority = index === 0;
+  const isSplit = Boolean(t.bgSplit && t.bgSplit !== t.bg);
+  const panelBg = isSplit
+    ? "linear-gradient(90deg, var(--bg) 0 50%, var(--bg-split) 50% 100%)"
+    : "var(--bg)";
 
   if (project.comingSoon) {
     return (
@@ -96,7 +100,9 @@ export function ProjectSection({
             <div
               className="absolute inset-0"
               style={{
-                background: `radial-gradient(120% 90% at 50% 10%, ${t.secondary}, ${t.bg})`,
+                background: isSplit
+                  ? `linear-gradient(90deg, ${t.bg}, ${t.bgSplit})`
+                  : `radial-gradient(120% 90% at 50% 10%, ${t.secondary}, ${t.bg})`,
               }}
             />
           )}
@@ -115,8 +121,35 @@ export function ProjectSection({
 
       {/* Coloured content panel with a torn top edge, pulled up over the hero */}
       <div className="relative z-10 -mt-[24vh]">
-        <TornDivider color={t.bg} seed={index + 3} height={100} className="-mb-px" />
-        <div className="grain relative bg-[var(--bg)] px-5 pb-24 pt-4 sm:px-8">
+        {project.heroCutout && (
+          <div
+            className={`pointer-events-none absolute z-20 h-[clamp(320px,46vw,560px)] w-[clamp(150px,34vw,380px)] ${
+              project.heroCutoutSide === "right"
+                ? "right-[2%] sm:right-[5%]"
+                : "left-[2%] sm:left-[5%]"
+            }`}
+            style={{ top: "clamp(-380px, -30vw, -180px)" }}
+          >
+            <Image
+              src={project.heroCutout}
+              alt=""
+              fill
+              sizes="(max-width: 640px) 40vw, 380px"
+              className="object-contain object-bottom drop-shadow-[0_20px_30px_rgba(0,0,0,0.35)]"
+            />
+          </div>
+        )}
+        <TornDivider
+          color={t.bg}
+          color2={isSplit ? t.bgSplit : undefined}
+          seed={index + 3}
+          height={100}
+          className="-mb-px"
+        />
+        <div
+          className="grain relative px-5 pb-24 pt-4 sm:px-8"
+          style={{ background: panelBg }}
+        >
           <div className="mx-auto max-w-[1180px]">
             <div className="grid gap-8 md:grid-cols-2 md:gap-14">
               <RevealOnScroll className="space-y-4">

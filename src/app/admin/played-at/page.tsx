@@ -29,7 +29,7 @@ export default async function PlayedAtPage({
           }))}
           fields={[
             { name: "name", label: "Nome", wide: true },
-            { name: "logo", label: "Logótipo (URL)", type: "url", wide: true },
+            { name: "logo", label: "Logótipo", type: "image", wide: true },
             { name: "paurl", label: "Link (opcional)", type: "url", wide: true },
           ]}
         />

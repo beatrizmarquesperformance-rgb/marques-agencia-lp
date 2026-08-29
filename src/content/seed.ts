@@ -42,6 +42,8 @@ Com uma identidade própria e uma presença cada vez mais consolidada no panoram
       heroImage: null,
       heroAlt: "DJ Marques a atuar perante uma multidão",
       logoImage: null,
+      heroCutout: null,
+      heroCutoutSide: "left",
       theme: {
         bg: "#22cfe4",
         primary: "#0b0b0b",
@@ -79,6 +81,8 @@ NO PIMBA À BRUTA, A VERGONHA E A INDIFERENÇA FICAM À ENTRADA. CÁ DENTRO, É 
       heroImage: null,
       heroAlt: "Multidão num arraial do Pimba à Bruta",
       logoImage: null,
+      heroCutout: null,
+      heroCutoutSide: "left",
       theme: {
         bg: "#0e7a3f",
         bgSplit: "#e2241a",
@@ -113,6 +117,8 @@ Ao longo do seu percurso, a FUNKISS já marcou presença em vários festivais, e
       heroImage: null,
       heroAlt: "Atuação da Funkiss com público",
       logoImage: null, // NOTE: real FUNKISS lockup pending (Dropbox one marked "não usar")
+      heroCutout: null,
+      heroCutoutSide: "right",
       theme: {
         bg: "#ff2e9a",
         primary: "#ffffff",
@@ -148,6 +154,8 @@ NÃO IMPORTA A ÉPOCA. NÃO IMPORTA O GÉNERO. SE É UM BANGER, É GANGBANGERS. 
       heroImage: null,
       heroAlt: "Público numa festa Gangbangers",
       logoImage: null,
+      heroCutout: null,
+      heroCutoutSide: "left",
       theme: {
         bg: "#1f2f7a",
         primary: "#ff4fbf",
@@ -170,6 +178,8 @@ NÃO IMPORTA A ÉPOCA. NÃO IMPORTA O GÉNERO. SE É UM BANGER, É GANGBANGERS. 
       heroImage: null,
       heroAlt: "",
       logoImage: null,
+      heroCutout: null,
+      heroCutoutSide: "left",
       theme: {
         bg: "#111111",
         primary: "#ffffff",

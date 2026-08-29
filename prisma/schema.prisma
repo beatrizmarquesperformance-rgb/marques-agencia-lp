@@ -19,9 +19,11 @@ model Project {
   description String   @default("") // paragraph copy, \n\n between paragraphs
 
   // hero
-  heroImage   String?  // URL (Blob). null => themed placeholder
-  heroAlt     String   @default("")
-  logoImage   String?  // project lockup PNG/SVG URL
+  heroImage     String?  // URL (Blob). null => themed placeholder
+  heroAlt       String   @default("")
+  logoImage     String?  // project lockup PNG/SVG URL
+  heroCutout    String?  // cut-out PNG that breaks across the torn edge
+  heroCutoutSide String  @default("left") // left | right
 
   // theme tokens
   bg          String   @default("#0d0d0d")

@@ -19,6 +19,8 @@ async function main() {
         heroImage: p.heroImage,
         heroAlt: p.heroAlt,
         logoImage: p.logoImage,
+        heroCutout: p.heroCutout,
+        heroCutoutSide: p.heroCutoutSide,
         bg: p.theme.bg,
         primary: p.theme.primary,
         secondary: p.theme.secondary,

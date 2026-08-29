@@ -37,6 +37,8 @@ async function loadFromDb(): Promise<SiteContent | null> {
     heroImage: p.heroImage,
     heroAlt: p.heroAlt,
     logoImage: p.logoImage,
+    heroCutout: p.heroCutout,
+    heroCutoutSide: p.heroCutoutSide === "right" ? "right" : "left",
     theme: {
       bg: p.bg,
       primary: p.primary,

@@ -44,6 +44,8 @@ export interface Project {
   heroImage: string | null;
   heroAlt: string;
   logoImage: string | null;
+  heroCutout: string | null;
+  heroCutoutSide: "left" | "right";
   theme: ProjectTheme;
   socials: Social[];
   photos: GalleryPhoto[];

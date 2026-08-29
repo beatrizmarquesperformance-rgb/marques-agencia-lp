@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { upload } from "@vercel/blob/client";
 
 export interface FieldSpec {
   name: string;
   label: string;
-  type?: "text" | "url" | "select";
+  type?: "text" | "url" | "select" | "image";
   options?: string[];
   placeholder?: string;
   wide?: boolean;
@@ -71,6 +72,12 @@ export function RowsEditor({
                     </option>
                   ))}
                 </select>
+              ) : f.type === "image" ? (
+                <ImageInput
+                  name={f.name}
+                  value={row[f.name] ?? ""}
+                  onChange={(v) => update(i, f.name, v)}
+                />
               ) : (
                 <input
                   name={f.name}
@@ -117,5 +124,69 @@ export function RowsEditor({
         </button>
       </div>
     </form>
+  );
+}
+
+function ImageInput({
+  name,
+  value,
+  onChange,
+}: {
+  name: string;
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  const ref = useRef<HTMLInputElement>(null);
+  const [busy, setBusy] = useState(false);
+
+  async function send(file: File) {
+    setBusy(true);
+    try {
+      const res = await upload(file.name, file, {
+        access: "public",
+        handleUploadUrl: "/api/admin/upload",
+      });
+      onChange(res.url);
+    } catch (e) {
+      alert((e as Error).message || "Falha no upload.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <span className="mt-0.5 flex items-center gap-2">
+      {value ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={value} alt="" className="h-9 w-9 border border-neutral-700 object-cover" />
+      ) : null}
+      <input
+        name={name}
+        type="url"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder="URL ou carregar →"
+        className="w-full bg-neutral-950 px-2 py-1 text-sm text-white"
+      />
+      <button
+        type="button"
+        onClick={() => ref.current?.click()}
+        disabled={busy}
+        className="shrink-0 border border-neutral-700 px-2 py-1 text-white hover:bg-neutral-800 disabled:opacity-50"
+      >
+        {busy ? "…" : "⬆︎"}
+      </button>
+      <input
+        ref={ref}
+        type="file"
+        accept="image/*"
+        hidden
+        onChange={(e) => {
+          const f = e.target.files?.[0];
+          if (f) send(f);
+          e.target.value = "";
+        }}
+      />
+    </span>
   );
 }
