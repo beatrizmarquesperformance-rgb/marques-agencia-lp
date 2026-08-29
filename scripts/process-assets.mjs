@@ -133,24 +133,31 @@ const tasks = {
   async pimba() {
     await img(`${P}/Logotipo/Logotipo Pimba á Bruta.png`, "pimba/logo.webp", 1000, { fit: "inside", q: 92 });
     const c = `${P}/Fotos Cartaz`;
+    const am = `${P}/Aftermovie.mp4`;
     await img(`${c}/3.jpg`, "pimba/hero.webp", 2000, { q: 80 });
     await img(`${c}/1 - Foto Principal.jpg`, "pimba/g1.webp", 1400);
     await img(`${c}/2.jpg`, "pimba/g2.webp", 1400);
-    await img(`${c}/4.jpg`, "pimba/g3.webp", 1400);
-    promo(`${P}/Aftermovie.mp4`, "pimba/promo.mp4");
-    await frame(`${P}/Aftermovie.mp4`, "pimba/promo-poster.webp", 4, 900);
-    clip(`${P}/Aftermovie.mp4`, "pimba/v1.mp4");
-    await frame(`${P}/Aftermovie.mp4`, "pimba/v1-poster.webp", 6, 900);
+    await img(`${c}/3.jpg`, "pimba/g3.webp", 1400);
+    await img(`${c}/4.jpg`, "pimba/g4.webp", 1400);
+    await frame(am, "pimba/g5.webp", 23);
+    await frame(am, "pimba/g6.webp", 48);
+    promo(am, "pimba/promo.mp4");
+    await frame(am, "pimba/promo-poster.webp", 4, 900);
+    clip(am, "pimba/v1.mp4");
+    await frame(am, "pimba/v1-poster.webp", 6, 900);
   },
 
   async funkiss() {
     const pk = `${K}/Presskit (fotos)`;
     const am = `${K}/Aftermovie (Motion flyer)`;
+    const fam = `${am}/1 - Aftermovie Guerra dos Sexos FMH.MP4`;
     await img(`${pk}/1.JPG`, "funkiss/hero.webp", 2000, { q: 80 });
     await img(`${pk}/2.png`, "funkiss/g1.webp", 1400);
     await img(`${pk}/3.png`, "funkiss/g2.webp", 1400);
-    await frame(`${am}/1 - Aftermovie Guerra dos Sexos FMH.MP4`, "funkiss/g3.webp", 12);
-    await frame(`${am}/1 - Aftermovie Guerra dos Sexos FMH.MP4`, "funkiss/g4.webp", 34);
+    await frame(fam, "funkiss/g3.webp", 18);
+    await frame(fam, "funkiss/g4.webp", 23);
+    await frame(fam, "funkiss/g5.webp", 43);
+    await frame(fam, "funkiss/g6.webp", 48);
     // KISSCAM lockups saved but unused (project name is FUNKISS per brief)
     await img(`${K}/Logo Kisscam/KISSCAM logo (com texto) .png`, "funkiss/logo-kisscam.webp", 1000, { fit: "inside", q: 92 });
     promo(`${am}/1 - Aftermovie Guerra dos Sexos FMH.MP4`, "funkiss/promo.mp4");
@@ -163,10 +170,12 @@ const tasks = {
     await img(`${G}/Logotipo/GANG_BANGERS.png`, "gangbangers/logo.webp", 1000, { fit: "inside", q: 92 });
     const main = `${G}/Aftermovie/Video Ganbangers.MP4`;
     await frame(main, "gangbangers/hero.webp", 22, 2000);
-    await frame(main, "gangbangers/g1.webp", 6);
-    await frame(main, "gangbangers/g2.webp", 16);
-    await frame(main, "gangbangers/g3.webp", 30);
-    await frame(main, "gangbangers/g4.webp", 44);
+    await frame(main, "gangbangers/g1.webp", 8);
+    await frame(main, "gangbangers/g2.webp", 18);
+    await frame(main, "gangbangers/g3.webp", 23);
+    await frame(main, "gangbangers/g4.webp", 33);
+    await frame(main, "gangbangers/g5.webp", 43);
+    await frame(main, "gangbangers/g6.webp", 48);
     promo(main, "gangbangers/promo.mp4");
     await frame(main, "gangbangers/promo-poster.webp", 3, 900);
     clip(`${G}/Shorts/copy_2255B6CD-C666-4DEF-AB01-435140001244.MOV`, "gangbangers/v1.mp4", { seconds: 30 });

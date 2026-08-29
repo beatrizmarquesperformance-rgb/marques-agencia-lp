@@ -17,12 +17,12 @@ export function Gallery({
   const tilt = [-2.5, 1.8, -1.2, 2.4, -2, 1.4, -1.6, 2.2];
 
   return (
-    <RevealOnScroll className="mt-14">
+    <RevealOnScroll className="mt-16 sm:mt-24">
       <ul className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3">
         {photos.map((p, i) => (
           <li
             key={i}
-            className="group relative aspect-[4/3] overflow-hidden border-[6px] border-white shadow-[0_10px_30px_rgba(0,0,0,0.35)] transition-transform duration-300 hover:!rotate-0 hover:scale-[1.02]"
+            className="group relative aspect-[3/4] overflow-hidden border-[6px] border-white shadow-[0_10px_30px_rgba(0,0,0,0.35)] transition-transform duration-300 hover:!rotate-0 hover:scale-[1.02]"
             style={{ rotate: `${tilt[i % tilt.length]}deg` }}
           >
             {p.image ? (
@@ -31,7 +31,7 @@ export function Gallery({
                 alt={p.alt}
                 fill
                 sizes="(max-width: 768px) 50vw, 33vw"
-                className="object-cover"
+                className="object-cover object-top"
                 loading="lazy"
               />
             ) : (

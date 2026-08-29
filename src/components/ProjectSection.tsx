@@ -32,7 +32,14 @@ function Paragraphs({ text }: { text: string }) {
   );
 }
 
-function ProjectLogo({ project }: { project: Project }) {
+function ProjectLogo({
+  project,
+  variant = "hero",
+}: {
+  project: Project;
+  variant?: "hero" | "panel";
+}) {
+  const panel = variant === "panel";
   if (project.logoImage) {
     return (
       <Image
@@ -40,13 +47,23 @@ function ProjectLogo({ project }: { project: Project }) {
         alt={`${project.name} logótipo`}
         width={520}
         height={220}
-        priority
-        className="h-auto w-[min(78vw,520px)] object-contain"
+        priority={!panel}
+        className={
+          panel
+            ? "h-auto w-[min(58vw,240px)] object-contain object-left"
+            : "h-auto w-[min(78vw,520px)] object-contain"
+        }
       />
     );
   }
   return (
-    <span className="display inline-block bg-[var(--primary)] px-5 py-2 text-4xl text-[var(--bg)] sm:text-6xl md:text-7xl">
+    <span
+      className={
+        panel
+          ? "display inline-block bg-[var(--primary)] px-3 py-1.5 text-2xl text-[var(--bg)] sm:text-3xl"
+          : "display inline-block bg-[var(--primary)] px-5 py-2 text-4xl text-[var(--bg)] sm:text-6xl md:text-7xl"
+      }
+    >
       {project.name}
     </span>
   );
@@ -107,7 +124,7 @@ export function ProjectSection({
               fill
               priority={priority}
               sizes="100vw"
-              className="object-cover"
+              className="object-cover object-[50%_20%]"
             />
           ) : (
             <div
@@ -169,15 +186,18 @@ export function ProjectSection({
                 <Paragraphs text={project.description} />
               </RevealOnScroll>
 
-              <RevealOnScroll className="flex flex-col justify-end gap-6">
+              <RevealOnScroll className="flex flex-col justify-end gap-5">
                 <SocialLinks socials={project.socials} />
-                <RequestProposalButton
-                  project={project.name}
-                  className="cta cta-solid self-start"
-                  style={ctaStyle}
-                >
-                  Pedir proposta para {project.name}
-                </RequestProposalButton>
+                <div className="flex flex-col items-start gap-3">
+                  <ProjectLogo project={project} variant="panel" />
+                  <RequestProposalButton
+                    project={project.name}
+                    className="cta cta-solid"
+                    style={ctaStyle}
+                  >
+                    Pedir proposta para {project.name}
+                  </RequestProposalButton>
+                </div>
                 <p className="display text-sm text-[var(--secondary)]">
                   BOOKING: 918 602 908 (PEDRO JARRAIS)
                 </p>

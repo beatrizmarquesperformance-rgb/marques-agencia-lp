@@ -123,7 +123,10 @@ NO PIMBA À BRUTA, A VERGONHA E A INDIFERENÇA FICAM À ENTRADA. CÁ DENTRO, É 
       photos: [
         { image: "/media/pimba/g1.webp", alt: "Pimba à Bruta — bastidores" },
         { image: "/media/pimba/g2.webp", alt: "Pimba à Bruta ao vivo" },
-        { image: "/media/pimba/g3.webp", alt: "Pimba à Bruta — atuação" },
+        { image: "/media/pimba/g3.webp", alt: "Pimba à Bruta — arraial" },
+        { image: "/media/pimba/g4.webp", alt: "Pimba à Bruta — atuação" },
+        { image: "/media/pimba/g5.webp", alt: "Público no Pimba à Bruta" },
+        { image: "/media/pimba/g6.webp", alt: "Pimba à Bruta ao vivo" },
       ],
       videos: [
         {
@@ -174,7 +177,9 @@ Ao longo do seu percurso, a FUNKISS já marcou presença em vários festivais, e
         { image: "/media/funkiss/g1.webp", alt: "Funkiss — sessão de estúdio" },
         { image: "/media/funkiss/g2.webp", alt: "Funkiss — sessão de estúdio" },
         { image: "/media/funkiss/g3.webp", alt: "Funkiss ao vivo" },
-        { image: "/media/funkiss/g4.webp", alt: "Funkiss ao vivo" },
+        { image: "/media/funkiss/g4.webp", alt: "Funkiss em palco" },
+        { image: "/media/funkiss/g5.webp", alt: "Funkiss — atuação" },
+        { image: "/media/funkiss/g6.webp", alt: "Funkiss ao vivo com pirotecnia" },
       ],
       videos: [
         {
@@ -224,10 +229,12 @@ NÃO IMPORTA A ÉPOCA. NÃO IMPORTA O GÉNERO. SE É UM BANGER, É GANGBANGERS. 
       },
       socials: [],
       photos: [
-        { image: "/media/gangbangers/g1.webp", alt: "Festa Gangbangers" },
-        { image: "/media/gangbangers/g2.webp", alt: "Público na Gangbangers" },
-        { image: "/media/gangbangers/g3.webp", alt: "Gangbangers ao vivo" },
-        { image: "/media/gangbangers/g4.webp", alt: "DJ na Gangbangers" },
+        { image: "/media/gangbangers/g1.webp", alt: "DJ na Gangbangers" },
+        { image: "/media/gangbangers/g2.webp", alt: "Bailarina na Gangbangers" },
+        { image: "/media/gangbangers/g3.webp", alt: "Performance na Gangbangers" },
+        { image: "/media/gangbangers/g4.webp", alt: "Público na Gangbangers" },
+        { image: "/media/gangbangers/g5.webp", alt: "Gangbangers ao vivo" },
+        { image: "/media/gangbangers/g6.webp", alt: "Multidão na Gangbangers" },
       ],
       videos: [
         {
