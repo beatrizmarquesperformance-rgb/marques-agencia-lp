@@ -181,15 +181,18 @@ export function ProjectSection({
           style={{ background: panelBg }}
         >
           <div className="mx-auto max-w-[1180px]">
-            <div className="grid gap-10 md:grid-cols-[1fr_minmax(300px,380px)] md:gap-14">
-              {/* LEFT — text */}
+            {/* [ text | logo→vídeo→CTA ] — the text top lines up with the video */}
+            <div className="grid gap-x-14 gap-y-6 md:grid-cols-[1fr_minmax(300px,380px)]">
+              {/* row 1: logo, right column only */}
+              <div className="hidden md:block" aria-hidden="true" />
+              <ProjectLogo project={project} variant="panel" />
+
+              {/* row 2 */}
               <RevealOnScroll className="space-y-4">
                 <Paragraphs text={project.description} />
               </RevealOnScroll>
 
-              {/* RIGHT — logo → vídeo → CTA */}
               <RevealOnScroll className="flex flex-col gap-6">
-                <ProjectLogo project={project} variant="panel" />
                 <VideoRow videos={project.videos} />
                 <div className="flex flex-col gap-3">
                   <RequestProposalButton
