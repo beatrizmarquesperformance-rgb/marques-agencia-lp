@@ -27,6 +27,11 @@ export async function adminProjects(): Promise<Project[]> {
     logoImage: p.logoImage,
     heroCutout: p.heroCutout,
     heroCutoutSide: p.heroCutoutSide === "right" ? "right" : "left",
+    promoVideo: {
+      provider: (p.promoProvider as never) ?? "mp4",
+      src: p.promoSrc,
+      poster: p.promoPoster,
+    },
     theme: {
       bg: p.bg,
       primary: p.primary,
@@ -50,25 +55,30 @@ export async function adminProject(slug: string): Promise<Project | undefined> {
 }
 
 export async function adminSettings() {
-  if (!prisma) {
-    const s = seedContent.settings;
-    return {
-      siteName: s.siteName ?? "",
-      ogImage: s.ogImage ?? "",
-      contactPhone: s.contactPhone,
-      contactName: s.contactName,
-      bandsintownArtist: s.bandsintownArtist ?? "",
-    };
+  const s = seedContent.settings;
+  const map: Record<string, string> = {};
+  if (prisma) {
+    const rows = await prisma.setting.findMany();
+    for (const r of rows) map[r.key] = r.value;
   }
-  const rows = await prisma.setting.findMany();
-  const map = Object.fromEntries(rows.map((r) => [r.key, r.value]));
   return {
-    siteName: map.siteName ?? "",
-    ogImage: map.ogImage ?? "",
-    contactPhone: map.contactPhone ?? seedContent.settings.contactPhone,
-    contactName: map.contactName ?? seedContent.settings.contactName,
-    bandsintownArtist: map.bandsintownArtist ?? "",
+    siteName: map.siteName ?? s.siteName ?? "",
+    ogImage: map.ogImage ?? s.ogImage ?? "",
+    contactPhone: map.contactPhone ?? s.contactPhone,
+    contactName: map.contactName ?? s.contactName,
+    contactEmail: map.contactEmail ?? s.contactEmail ?? "",
+    bandsintownArtist: map.bandsintownArtist ?? s.bandsintownArtist ?? "",
+    heroVideoProvider: map.heroVideoProvider ?? s.heroVideoProvider,
+    heroVideoSrc: map.heroVideoSrc ?? "",
+    heroVideoPoster: map.heroVideoPoster ?? "",
+    heroHeadline: map.heroHeadline ?? s.heroHeadline,
+    heroSubhead: map.heroSubhead ?? s.heroSubhead,
   };
+}
+
+export async function adminLeads() {
+  if (!prisma) return [];
+  return prisma.lead.findMany({ orderBy: { createdAt: "desc" }, take: 200 });
 }
 
 export async function adminPlayedAt() {

@@ -21,6 +21,9 @@ async function main() {
         logoImage: p.logoImage,
         heroCutout: p.heroCutout,
         heroCutoutSide: p.heroCutoutSide,
+        promoProvider: p.promoVideo.provider,
+        promoSrc: p.promoVideo.src,
+        promoPoster: p.promoVideo.poster,
         bg: p.theme.bg,
         primary: p.theme.primary,
         secondary: p.theme.secondary,
@@ -57,7 +60,13 @@ async function main() {
     ["siteName", s.siteName],
     ["contactPhone", s.contactPhone],
     ["contactName", s.contactName],
+    ["contactEmail", s.contactEmail],
     ["bandsintownArtist", s.bandsintownArtist],
+    ["heroVideoProvider", s.heroVideoProvider],
+    ["heroVideoSrc", s.heroVideoSrc],
+    ["heroVideoPoster", s.heroVideoPoster],
+    ["heroHeadline", s.heroHeadline],
+    ["heroSubhead", s.heroSubhead],
   ];
   for (const [key, value] of settings) {
     if (value == null) continue;

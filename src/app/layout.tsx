@@ -25,6 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
     .join(" · ");
 
   return {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
     title: {
       default: name,
       template: `%s — ${name}`,

@@ -18,6 +18,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Link href="/admin/played-at" className="text-neutral-400 hover:text-white">
             Já passámos por
           </Link>
+          <Link href="/admin/leads" className="text-neutral-400 hover:text-white">
+            Pedidos
+          </Link>
           <a
             href="/"
             target="_blank"

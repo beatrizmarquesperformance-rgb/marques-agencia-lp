@@ -16,7 +16,14 @@ export const seedContent: SiteContent = {
     ogImage: null,
     contactPhone: "918 602 908",
     contactName: "Pedro Jarrais",
+    contactEmail: null,
     bandsintownArtist: null,
+    heroVideoProvider: "mp4",
+    heroVideoSrc: null, // general hero video — pending real asset
+    heroVideoPoster: null,
+    heroHeadline: "CINCO PROJETOS. UMA FESTA DO INÍCIO AO FIM.",
+    heroSubhead:
+      "Animação e espetáculo para festivais, municípios, marcas, clubes e eventos privados.",
   },
   playedAt: [
     // Populated via /admin. Examples referenced in the brief copy:
@@ -44,6 +51,7 @@ Com uma identidade própria e uma presença cada vez mais consolidada no panoram
       logoImage: null,
       heroCutout: null,
       heroCutoutSide: "left",
+      promoVideo: { provider: "mp4", src: null, poster: null },
       theme: {
         bg: "#22cfe4",
         primary: "#0b0b0b",
@@ -83,6 +91,7 @@ NO PIMBA À BRUTA, A VERGONHA E A INDIFERENÇA FICAM À ENTRADA. CÁ DENTRO, É 
       logoImage: null,
       heroCutout: null,
       heroCutoutSide: "left",
+      promoVideo: { provider: "mp4", src: null, poster: null },
       theme: {
         bg: "#0e7a3f",
         bgSplit: "#e2241a",
@@ -119,6 +128,7 @@ Ao longo do seu percurso, a FUNKISS já marcou presença em vários festivais, e
       logoImage: null, // NOTE: real FUNKISS lockup pending (Dropbox one marked "não usar")
       heroCutout: null,
       heroCutoutSide: "right",
+      promoVideo: { provider: "mp4", src: null, poster: null },
       theme: {
         bg: "#ff2e9a",
         primary: "#ffffff",
@@ -156,6 +166,7 @@ NÃO IMPORTA A ÉPOCA. NÃO IMPORTA O GÉNERO. SE É UM BANGER, É GANGBANGERS. 
       logoImage: null,
       heroCutout: null,
       heroCutoutSide: "left",
+      promoVideo: { provider: "mp4", src: null, poster: null },
       theme: {
         bg: "#1f2f7a",
         primary: "#ff4fbf",
@@ -180,6 +191,7 @@ NÃO IMPORTA A ÉPOCA. NÃO IMPORTA O GÉNERO. SE É UM BANGER, É GANGBANGERS. 
       logoImage: null,
       heroCutout: null,
       heroCutoutSide: "left",
+      promoVideo: { provider: "mp4", src: null, poster: null },
       theme: {
         bg: "#111111",
         primary: "#ffffff",

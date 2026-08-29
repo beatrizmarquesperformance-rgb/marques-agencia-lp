@@ -70,6 +70,31 @@ export default async function ProjectEditPage({
           </label>
         </div>
 
+        <div className="grid gap-4 sm:grid-cols-2">
+          <label className="flex flex-col text-xs text-neutral-400">
+            Vídeo vertical (rail de projetos) — fonte
+            <select
+              name="promoProvider"
+              defaultValue={p.promoVideo.provider}
+              className="mt-1 w-40 bg-neutral-950 px-2 py-1 text-sm text-white"
+            >
+              {["mp4", "mux", "youtube", "vimeo", "cloudflare"].map((o) => (
+                <option key={o} value={o}>{o}</option>
+              ))}
+            </select>
+          </label>
+          <Field
+            name="promoSrc"
+            label="Vídeo vertical — URL (mp4) ou ID"
+            defaultValue={p.promoVideo.src ?? ""}
+          />
+          <ImageField
+            name="promoPoster"
+            label="Vídeo vertical — poster (9:16)"
+            defaultValue={p.promoVideo.poster ?? ""}
+          />
+        </div>
+
         <label className="block text-xs text-neutral-400">
           Descrição (parágrafos separados por linha em branco)
           <textarea

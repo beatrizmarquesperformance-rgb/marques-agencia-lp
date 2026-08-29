@@ -15,11 +15,19 @@ export interface GalleryPhoto {
   alt: string;
 }
 
+export type VideoProvider = "mp4" | "mux" | "youtube" | "vimeo" | "cloudflare";
+
 export interface Video {
-  provider: "mp4" | "mux" | "youtube" | "vimeo" | "cloudflare";
+  provider: VideoProvider;
   src: string;
   poster: string | null;
   title: string;
+}
+
+export interface PromoVideo {
+  provider: VideoProvider;
+  src: string | null;
+  poster: string | null;
 }
 
 export interface ProjectTheme {
@@ -46,6 +54,7 @@ export interface Project {
   logoImage: string | null;
   heroCutout: string | null;
   heroCutoutSide: "left" | "right";
+  promoVideo: PromoVideo;
   theme: ProjectTheme;
   socials: Social[];
   photos: GalleryPhoto[];
@@ -58,14 +67,22 @@ export interface PlayedAt {
   url: string | null;
 }
 
+export interface SiteSettings {
+  siteName: string | null;
+  ogImage: string | null;
+  contactPhone: string;
+  contactName: string;
+  contactEmail: string | null;
+  bandsintownArtist: string | null;
+  heroVideoProvider: VideoProvider;
+  heroVideoSrc: string | null;
+  heroVideoPoster: string | null;
+  heroHeadline: string;
+  heroSubhead: string;
+}
+
 export interface SiteContent {
-  settings: {
-    siteName: string | null;
-    ogImage: string | null;
-    contactPhone: string;
-    contactName: string;
-    bandsintownArtist: string | null;
-  };
+  settings: SiteSettings;
   projects: Project[];
   playedAt: PlayedAt[];
 }

@@ -85,6 +85,14 @@ export function Header({
               </button>
             </li>
           ))}
+          <li>
+            <button
+              onClick={() => go("contacto")}
+              className="display px-3 py-2 text-sm text-[var(--agency-muted)] opacity-80 transition-opacity hover:opacity-100"
+            >
+              Contacto
+            </button>
+          </li>
         </ul>
 
         <a
@@ -123,6 +131,14 @@ export function Header({
                 </button>
               </li>
             ))}
+            <li>
+              <button
+                onClick={() => go("contacto")}
+                className="display block w-full py-3 text-left text-xl text-[var(--agency-muted)]"
+              >
+                Contacto
+              </button>
+            </li>
           </ul>
           <a
             href={`tel:+351${contactPhone.replace(/\s/g, "")}`}

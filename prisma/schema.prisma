@@ -25,6 +25,11 @@ model Project {
   heroCutout    String?  // cut-out PNG that breaks across the torn edge
   heroCutoutSide String  @default("left") // left | right
 
+  // vertical "category" video shown in the rail under the page hero
+  promoProvider String  @default("mp4") // mp4 | mux | youtube | vimeo | cloudflare
+  promoSrc      String?
+  promoPoster   String?
+
   // theme tokens
   bg          String   @default("#0d0d0d")
   primary     String   @default("#ffffff")
@@ -81,4 +86,16 @@ model PlayedAt {
 model Setting {
   key   String @id
   value String
+}
+
+model Lead {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String
+  dates     String   @default("[]") // JSON array of "yyyy-mm-dd"
+  project   String   @default("")
+  message   String   @default("")
+  source    String   @default("modal") // modal | page
+  createdAt DateTime @default(now())
 }

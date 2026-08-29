@@ -41,6 +41,9 @@ export async function saveProject(slug: string, fd: FormData) {
       logoImage: str(fd, "logoImage") || null,
       heroCutout: str(fd, "heroCutout") || null,
       heroCutoutSide: str(fd, "heroCutoutSide") === "right" ? "right" : "left",
+      promoProvider: str(fd, "promoProvider") || "mp4",
+      promoSrc: str(fd, "promoSrc") || null,
+      promoPoster: str(fd, "promoPoster") || null,
       enabled: bool(fd, "enabled"),
       comingSoon: bool(fd, "comingSoon"),
       order: int(fd, "order"),
@@ -124,7 +127,13 @@ export async function saveSettings(fd: FormData) {
     ["ogImage", str(fd, "ogImage")],
     ["contactPhone", str(fd, "contactPhone")],
     ["contactName", str(fd, "contactName")],
+    ["contactEmail", str(fd, "contactEmail")],
     ["bandsintownArtist", str(fd, "bandsintownArtist")],
+    ["heroVideoProvider", str(fd, "heroVideoProvider") || "mp4"],
+    ["heroVideoSrc", str(fd, "heroVideoSrc")],
+    ["heroVideoPoster", str(fd, "heroVideoPoster")],
+    ["heroHeadline", str(fd, "heroHeadline")],
+    ["heroSubhead", str(fd, "heroSubhead")],
   ];
   for (const [key, value] of entries) {
     await db.setting.upsert({ where: { key }, update: { value }, create: { key, value } });

@@ -7,6 +7,10 @@
   --agency-muted: #9a9a9a;
   --agency-line: #262626;
   --header-h: 60px;
+  --radius: 4px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --danger: #f26d6d;
+  --success: #58c98b;
 }
 
 @theme inline {
@@ -82,4 +86,136 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.01em;
   line-height: 0.95;
+}
+
+/* ---------- Shared interactive system (CTAs, fields, modal) ---------- */
+
+.cta {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.4rem;
+  font-size: 0.9rem;
+  line-height: 1;
+  border-radius: var(--radius);
+  border: 2px solid currentColor;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition:
+    transform 0.15s var(--ease),
+    background-color 0.15s var(--ease),
+    color 0.15s var(--ease),
+    opacity 0.15s var(--ease);
+}
+.cta:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+.cta:active:not(:disabled) {
+  transform: translateY(0);
+}
+.cta:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.cta:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+/* filled variant: fill uses --cta-fill, text uses --cta-ink */
+.cta-solid {
+  border-color: transparent;
+  background: var(--cta-fill, var(--agency-fg));
+  color: var(--cta-ink, var(--agency-bg));
+}
+.cta-solid:hover:not(:disabled) {
+  background: var(--cta-fill, var(--agency-fg));
+  filter: brightness(1.08);
+}
+
+.field-label {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  letter-spacing: 0.07em;
+  color: var(--agency-muted);
+}
+.field {
+  width: 100%;
+  background: rgb(255 255 255 / 0.05);
+  border: 1px solid var(--agency-line);
+  border-radius: var(--radius);
+  padding: 0.6rem 0.75rem;
+  color: var(--agency-fg);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  transition: border-color 0.15s var(--ease), box-shadow 0.15s var(--ease);
+}
+.field::placeholder {
+  color: var(--agency-muted);
+}
+.field:hover:not(:disabled) {
+  border-color: #3a3a3a;
+}
+.field:focus {
+  outline: none;
+  border-color: var(--agency-fg);
+  box-shadow: 0 0 0 3px rgb(255 255 255 / 0.08);
+}
+.field:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.field[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+.field-error {
+  color: var(--danger);
+  font-size: 0.78rem;
+}
+
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.modal-overlay {
+  animation: overlay-in 0.2s var(--ease) both;
+}
+.modal-card {
+  animation: modal-in 0.28s var(--ease) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .modal-overlay,
+  .modal-card {
+    animation: none;
+  }
+  .cta:hover:not(:disabled) {
+    transform: none;
+  }
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

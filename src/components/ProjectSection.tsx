@@ -1,11 +1,13 @@
 import Image from "next/image";
 import type { Project } from "@/lib/types";
 import { themeVars } from "@/lib/theme";
+import type { CSSProperties } from "react";
 import { TornDivider } from "./TornDivider";
 import { SocialLinks } from "./SocialLinks";
 import { Gallery } from "./Gallery";
 import { VideoRow } from "./VideoRow";
 import { RevealOnScroll } from "./RevealOnScroll";
+import { RequestProposalButton } from "./RequestProposalButton";
 
 function Paragraphs({ text }: { text: string }) {
   return (
@@ -63,16 +65,27 @@ export function ProjectSection({
   const panelBg = isSplit
     ? "linear-gradient(90deg, var(--bg) 0 50%, var(--bg-split) 50% 100%)"
     : "var(--bg)";
+  const ctaStyle = {
+    "--cta-fill": t.primary,
+    "--cta-ink": t.bg,
+  } as CSSProperties;
 
   if (project.comingSoon) {
     return (
       <section
         id={project.slug}
         style={themeVars(t)}
-        className="grain relative flex min-h-[70vh] flex-col items-center justify-center overflow-hidden bg-[var(--bg)] px-6 py-24 text-center text-[var(--text)]"
+        className="grain relative flex min-h-[70vh] scroll-mt-[var(--header-h)] flex-col items-center justify-center overflow-hidden bg-[var(--bg)] px-6 py-24 text-center text-[var(--text)]"
       >
         <ProjectLogo project={project} />
         <p className="display mt-8 text-lg text-[var(--secondary)]">Em breve</p>
+        <RequestProposalButton
+          project={project.name}
+          className="cta cta-solid mt-8"
+          style={ctaStyle}
+        >
+          Falar sobre {project.name}
+        </RequestProposalButton>
       </section>
     );
   }
@@ -81,7 +94,7 @@ export function ProjectSection({
     <section
       id={project.slug}
       style={themeVars(t)}
-      className="relative bg-[var(--bg)] text-[var(--text)]"
+      className="relative scroll-mt-[var(--header-h)] bg-[var(--bg)] text-[var(--text)]"
       aria-label={project.name}
     >
       {/* Hero photo zone — stays put while the coloured panel rises over it */}
@@ -158,6 +171,13 @@ export function ProjectSection({
 
               <RevealOnScroll className="flex flex-col justify-end gap-6">
                 <SocialLinks socials={project.socials} />
+                <RequestProposalButton
+                  project={project.name}
+                  className="cta cta-solid self-start"
+                  style={ctaStyle}
+                >
+                  Pedir proposta para {project.name}
+                </RequestProposalButton>
                 <p className="display text-sm text-[var(--secondary)]">
                   BOOKING: 918 602 908 (PEDRO JARRAIS)
                 </p>

@@ -39,6 +39,11 @@ async function loadFromDb(): Promise<SiteContent | null> {
     logoImage: p.logoImage,
     heroCutout: p.heroCutout,
     heroCutoutSide: p.heroCutoutSide === "right" ? "right" : "left",
+    promoVideo: {
+      provider: (p.promoProvider as Video["provider"]) ?? "mp4",
+      src: p.promoSrc,
+      poster: p.promoPoster,
+    },
     theme: {
       bg: p.bg,
       primary: p.primary,
@@ -59,13 +64,20 @@ async function loadFromDb(): Promise<SiteContent | null> {
     })),
   }));
 
+  const sd = seedContent.settings;
   return {
     settings: {
       siteName: settings.siteName ?? null,
       ogImage: settings.ogImage ?? null,
-      contactPhone: settings.contactPhone ?? seedContent.settings.contactPhone,
-      contactName: settings.contactName ?? seedContent.settings.contactName,
+      contactPhone: settings.contactPhone ?? sd.contactPhone,
+      contactName: settings.contactName ?? sd.contactName,
+      contactEmail: settings.contactEmail ?? null,
       bandsintownArtist: settings.bandsintownArtist ?? null,
+      heroVideoProvider: (settings.heroVideoProvider as never) ?? sd.heroVideoProvider,
+      heroVideoSrc: settings.heroVideoSrc ?? null,
+      heroVideoPoster: settings.heroVideoPoster ?? null,
+      heroHeadline: settings.heroHeadline ?? sd.heroHeadline,
+      heroSubhead: settings.heroSubhead ?? sd.heroSubhead,
     },
     projects,
     playedAt: playedAtRaw.map((x) => ({ name: x.name, logo: x.logo, url: x.url })),
