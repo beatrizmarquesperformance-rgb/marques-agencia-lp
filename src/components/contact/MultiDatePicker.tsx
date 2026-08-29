@@ -29,13 +29,15 @@ export function formatDatePt(s: string): string {
  * Calendar that allows selecting several dates. Selected dates are shown as
  * removable chips. No native date input, no external library.
  */
+type Updater = string[] | ((prev: string[]) => string[]);
+
 export function MultiDatePicker({
   value,
   onChange,
   id,
 }: {
   value: string[];
-  onChange: (next: string[]) => void;
+  onChange: (next: Updater) => void;
   id?: string;
 }) {
   const today = useMemo(() => {
@@ -62,12 +64,11 @@ export function MultiDatePicker({
 
   function toggle(d: Date) {
     const key = ymd(d);
-    if (selected.has(key)) {
-      onChange(value.filter((v) => v !== key));
-    } else {
-      onChange([...value, key].sort());
-    }
+    onChange((prev) =>
+      prev.includes(key) ? prev.filter((v) => v !== key) : [...prev, key].sort(),
+    );
   }
+  const remove = (key: string) => onChange((prev) => prev.filter((v) => v !== key));
 
   const canGoPrev =
     view.getFullYear() > today.getFullYear() ||
@@ -142,7 +143,7 @@ export function MultiDatePicker({
             <li key={v}>
               <button
                 type="button"
-                onClick={() => onChange(value.filter((x) => x !== v))}
+                onClick={() => remove(v)}
                 className="inline-flex items-center gap-1.5 rounded-full border border-[var(--agency-line)] bg-white/[0.06] px-2.5 py-1 text-xs text-[var(--agency-fg)] hover:border-[var(--danger)] hover:text-[var(--danger)]"
               >
                 {formatDatePt(v)}
