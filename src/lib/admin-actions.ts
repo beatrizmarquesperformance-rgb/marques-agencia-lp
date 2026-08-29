@@ -6,7 +6,7 @@ import { prisma } from "@/lib/db";
 import { isAuthed } from "@/lib/auth";
 
 async function guard() {
-  if (!(await isAuthed())) redirect("/admin/login");
+  if (!(await isAuthed())) redirect("/login");
   if (!prisma) {
     throw new Error(
       "Sem base de dados: define DATABASE_URL e corre `npm run db:push && npm run db:seed`.",
@@ -165,5 +165,5 @@ export async function savePlayedAt(fd: FormData) {
 export async function logout() {
   const { destroySession } = await import("@/lib/auth");
   await destroySession();
-  redirect("/admin/login");
+  redirect("/login");
 }

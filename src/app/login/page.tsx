@@ -1,10 +1,9 @@
 "use client";
 
 import { Suspense, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 function LoginForm() {
-  const router = useRouter();
   const params = useSearchParams();
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -19,11 +18,14 @@ function LoginForm() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ password }),
     });
-    setBusy(false);
     if (res.ok) {
-      router.replace(params.get("next") || "/admin");
-      router.refresh();
-    } else if (res.status === 501) {
+      const next = params.get("next") || "/admin";
+      // hard navigation so the new auth cookie is picked up server-side
+      window.location.assign(next.startsWith("/") ? next : "/admin");
+      return;
+    }
+    setBusy(false);
+    if (res.status === 501) {
       setError("Servidor sem palavra-passe configurada (ADMIN_PASSWORD_HASH).");
     } else {
       setError("Palavra-passe incorreta.");
@@ -33,7 +35,7 @@ function LoginForm() {
   return (
     <main className="grid min-h-screen place-items-center bg-[var(--agency-bg)] px-4 text-[var(--agency-fg)]">
       <form onSubmit={submit} className="w-full max-w-sm space-y-4">
-        <h1 className="display text-3xl">Admin</h1>
+        <h1 className="display text-3xl">Backoffice</h1>
         <input
           type="password"
           autoFocus
@@ -56,7 +58,7 @@ function LoginForm() {
   );
 }
 
-export default function AdminLoginPage() {
+export default function LoginPage() {
   return (
     <Suspense>
       <LoginForm />
