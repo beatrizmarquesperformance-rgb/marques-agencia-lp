@@ -17,7 +17,7 @@ export function Gallery({
   const tilt = [-2.5, 1.8, -1.2, 2.4, -2, 1.4, -1.6, 2.2];
 
   return (
-    <RevealOnScroll className="mt-16 sm:mt-24">
+    <RevealOnScroll className="mt-12 sm:mt-16">
       <ul className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3">
         {photos.map((p, i) => (
           <li

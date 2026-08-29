@@ -14,7 +14,7 @@ export function VideoRow({ videos }: { videos: Video[] }) {
       {valid.map((v, i) => (
         <figure
           key={i}
-          className="w-full max-w-[320px] overflow-hidden border-[6px] border-white bg-black"
+          className="w-full max-w-[264px] overflow-hidden border-[6px] border-white bg-black"
         >
           <LazyVideo
             provider={v.provider}
@@ -22,7 +22,7 @@ export function VideoRow({ videos }: { videos: Video[] }) {
             poster={v.poster}
             mode="click"
             label={v.title}
-            posterSizes="(max-width: 768px) 90vw, 380px"
+            posterSizes="(max-width: 768px) 90vw, 264px"
             className="aspect-[9/16]"
           />
           {v.title && (

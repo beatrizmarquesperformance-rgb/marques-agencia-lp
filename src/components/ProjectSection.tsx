@@ -9,26 +9,24 @@ import { VideoRow } from "./VideoRow";
 import { RevealOnScroll } from "./RevealOnScroll";
 import { RequestProposalButton } from "./RequestProposalButton";
 
-function Paragraphs({ text }: { text: string }) {
+function ProjectCopy({ text }: { text: string }) {
+  const parts = text
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+  const [lead, ...body] = parts;
+
   return (
-    <>
-      {text
-        .split(/\n\s*\n/)
-        .map((p) => p.trim())
-        .filter(Boolean)
-        .map((p, i) => (
-          <p
-            key={i}
-            className={
-              i === 0
-                ? "display text-xl text-[var(--accent)] sm:text-2xl"
-                : "display text-[15px] leading-tight sm:text-base"
-            }
-          >
-            {p}
-          </p>
+    <div className="max-w-[52ch]">
+      <p className="display !leading-[1.05] text-[1.7rem] text-[var(--accent)] sm:text-[2.15rem]">
+        {lead}
+      </p>
+      <div className="mt-8 space-y-6 text-[1.02rem] leading-[1.7] text-[var(--text)] sm:text-[1.15rem]">
+        {body.map((p, i) => (
+          <p key={i}>{p}</p>
         ))}
-    </>
+      </div>
+    </div>
   );
 }
 
@@ -188,8 +186,8 @@ export function ProjectSection({
               <ProjectLogo project={project} variant="panel" />
 
               {/* row 2 */}
-              <RevealOnScroll className="space-y-4">
-                <Paragraphs text={project.description} />
+              <RevealOnScroll>
+                <ProjectCopy text={project.description} />
               </RevealOnScroll>
 
               <RevealOnScroll className="flex flex-col gap-6">
