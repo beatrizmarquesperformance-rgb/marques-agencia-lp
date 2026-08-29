@@ -181,30 +181,32 @@ export function ProjectSection({
           style={{ background: panelBg }}
         >
           <div className="mx-auto max-w-[1180px]">
-            <div className="grid gap-8 md:grid-cols-2 md:gap-14">
+            <div className="grid gap-10 md:grid-cols-[1fr_minmax(300px,380px)] md:gap-14">
+              {/* LEFT — text */}
               <RevealOnScroll className="space-y-4">
                 <Paragraphs text={project.description} />
               </RevealOnScroll>
 
-              <RevealOnScroll className="flex flex-col justify-end gap-5">
-                <SocialLinks socials={project.socials} />
-                <div className="flex flex-col items-start gap-3">
-                  <ProjectLogo project={project} variant="panel" />
+              {/* RIGHT — logo → vídeo → CTA */}
+              <RevealOnScroll className="flex flex-col gap-6">
+                <ProjectLogo project={project} variant="panel" />
+                <VideoRow videos={project.videos} />
+                <div className="flex flex-col gap-3">
                   <RequestProposalButton
                     project={project.name}
-                    className="cta cta-solid"
+                    className="cta cta-solid w-full"
                     style={ctaStyle}
                   >
                     Pedir proposta para {project.name}
                   </RequestProposalButton>
+                  <SocialLinks socials={project.socials} />
+                  <p className="display text-sm text-[var(--secondary)]">
+                    BOOKING: 918 602 908 (PEDRO JARRAIS)
+                  </p>
                 </div>
-                <p className="display text-sm text-[var(--secondary)]">
-                  BOOKING: 918 602 908 (PEDRO JARRAIS)
-                </p>
               </RevealOnScroll>
             </div>
 
-            <VideoRow videos={project.videos} />
             <Gallery
               photos={project.photos}
               theme={t}
