@@ -55,7 +55,9 @@ export function Header({
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        scrolled || open ? "bg-[var(--agency-bg)]/95 backdrop-blur border-b border-[var(--agency-line)]" : "bg-transparent"
+        scrolled || open
+          ? "bg-[var(--agency-bg-blur)] backdrop-blur border-b border-[var(--agency-line)]"
+          : "bg-transparent"
       }`}
       style={{ height: "var(--header-h)" }}
     >

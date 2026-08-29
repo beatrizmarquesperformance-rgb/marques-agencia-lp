@@ -15,6 +15,12 @@ export default async function HomePage() {
 
   return (
     <>
+      <a
+        href="#conteudo"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[60] focus:bg-white focus:px-3 focus:py-2 focus:text-black"
+      >
+        Saltar para o conteúdo
+      </a>
       <Header
         items={navItems}
         contactPhone={settings.contactPhone}
@@ -22,7 +28,7 @@ export default async function HomePage() {
         siteName={settings.siteName}
       />
 
-      <main>
+      <main id="conteudo">
         {projects
           .filter((p) => p.enabled)
           .map((project, i) => (

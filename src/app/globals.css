@@ -2,6 +2,7 @@
 
 :root {
   --agency-bg: #0c0c0d;
+  --agency-bg-blur: rgb(12 12 13 / 0.92);
   --agency-fg: #f4f4f4;
   --agency-muted: #9a9a9a;
   --agency-line: #262626;

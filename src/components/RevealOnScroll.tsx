@@ -16,6 +16,7 @@ export function RevealOnScroll({
   children: ReactNode;
   className?: string;
   as?: "div" | "section" | "li" | "figure";
+  /** kept for API compatibility; triggering now uses a bottom rootMargin */
   amount?: number;
 }) {
   const ref = useRef<HTMLElement>(null);
@@ -27,11 +28,21 @@ export function RevealOnScroll({
       el.dataset.shown = "true";
       return;
     }
+    // Initial geometry check so anything already on screen shows immediately
+    // (and doesn't depend on an IO callback that may lag on first paint).
+    const inView = () => {
+      const r = el.getBoundingClientRect();
+      return r.top < window.innerHeight * 0.88 && r.bottom > 0;
+    };
+    el.dataset.shown = inView() ? "true" : "false";
+
     const io = new IntersectionObserver(
       ([entry]) => {
+        // reveal as soon as any part enters; hide once fully past (so it
+        // replays on scroll up) — works for blocks taller than the viewport
         el.dataset.shown = entry.isIntersecting ? "true" : "false";
       },
-      { threshold: amount },
+      { threshold: 0, rootMargin: "0px 0px -12% 0px" },
     );
     io.observe(el);
     return () => io.disconnect();
