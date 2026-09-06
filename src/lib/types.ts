@@ -67,11 +67,18 @@ export interface PlayedAt {
   url: string | null;
 }
 
+export interface Contact {
+  name: string;
+  phone: string;
+}
+
 export interface SiteSettings {
   siteName: string | null;
   ogImage: string | null;
   contactPhone: string;
   contactName: string;
+  contactPhone2: string | null;
+  contactName2: string | null;
   contactEmail: string | null;
   bandsintownArtist: string | null;
   heroVideoProvider: VideoProvider;

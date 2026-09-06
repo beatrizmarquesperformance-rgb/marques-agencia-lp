@@ -16,6 +16,8 @@ export const seedContent: SiteContent = {
     ogImage: null,
     contactPhone: "918 602 908",
     contactName: "Pedro Jarrais",
+    contactPhone2: "922 284 699",
+    contactName2: "Tomás Marques",
     contactEmail: null,
     bandsintownArtist: null,
     heroVideoProvider: "mp4",

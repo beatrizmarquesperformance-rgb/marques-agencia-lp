@@ -71,6 +71,8 @@ async function loadFromDb(): Promise<SiteContent | null> {
       ogImage: settings.ogImage ?? null,
       contactPhone: settings.contactPhone ?? sd.contactPhone,
       contactName: settings.contactName ?? sd.contactName,
+      contactPhone2: settings.contactPhone2 ?? sd.contactPhone2,
+      contactName2: settings.contactName2 ?? sd.contactName2,
       contactEmail: settings.contactEmail ?? null,
       bandsintownArtist: settings.bandsintownArtist ?? null,
       heroVideoProvider: (settings.heroVideoProvider as never) ?? sd.heroVideoProvider,

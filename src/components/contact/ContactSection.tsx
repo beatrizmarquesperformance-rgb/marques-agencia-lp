@@ -1,14 +1,14 @@
+import type { Contact } from "@/lib/types";
+import { telHref } from "@/lib/contacts";
 import { ContactForm, type ProjectOption } from "./ContactForm";
 
 /** General contact form at the end of the page — no project pre-selected. */
 export function ContactSection({
   projects,
-  contactPhone,
-  contactName,
+  contacts,
 }: {
   projects: ProjectOption[];
-  contactPhone: string;
-  contactName: string;
+  contacts: Contact[];
 }) {
   return (
     <section
@@ -23,13 +23,18 @@ export function ContactSection({
           </p>
           <p className="mt-6 text-sm text-[var(--agency-muted)]">
             Ou liga diretamente:{" "}
-            <a
-              href={`tel:+351${contactPhone.replace(/\s/g, "")}`}
-              className="text-[var(--agency-fg)] underline underline-offset-4"
-            >
-              {contactPhone}
-            </a>{" "}
-            ({contactName})
+            {contacts.map((c, i) => (
+              <span key={c.phone}>
+                {i > 0 && " · "}
+                <a
+                  href={telHref(c.phone)}
+                  className="text-[var(--agency-fg)] underline underline-offset-4"
+                >
+                  {c.phone}
+                </a>{" "}
+                ({c.name})
+              </span>
+            ))}
           </p>
         </div>
 

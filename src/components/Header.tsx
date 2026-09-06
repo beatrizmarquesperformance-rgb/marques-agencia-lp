@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { Contact } from "@/lib/types";
+import { telHref } from "@/lib/contacts";
 
 interface NavItem {
   slug: string;
@@ -9,13 +11,11 @@ interface NavItem {
 
 export function Header({
   items,
-  contactPhone,
-  contactName,
+  contacts,
   siteName,
 }: {
   items: NavItem[];
-  contactPhone: string;
-  contactName: string;
+  contacts: Contact[];
   siteName: string | null;
 }) {
   const [active, setActive] = useState<string>(items[0]?.slug ?? "");
@@ -95,16 +95,18 @@ export function Header({
           </li>
         </ul>
 
-        <a
-          href={`tel:+351${contactPhone.replace(/\s/g, "")}`}
-          className="hidden shrink-0 text-right text-[11px] leading-tight text-[var(--agency-muted)] lg:block"
-        >
+        <div className="hidden shrink-0 text-right text-[11px] leading-tight text-[var(--agency-muted)] lg:block">
           BOOKING
-          <br />
-          <span className="text-[var(--agency-fg)]">
-            {contactPhone} · {contactName}
-          </span>
-        </a>
+          {contacts.map((c) => (
+            <a
+              key={c.phone}
+              href={telHref(c.phone)}
+              className="block text-[var(--agency-fg)]"
+            >
+              {c.phone} · {c.name}
+            </a>
+          ))}
+        </div>
 
         <button
           onClick={() => setOpen((v) => !v)}
@@ -140,12 +142,14 @@ export function Header({
               </button>
             </li>
           </ul>
-          <a
-            href={`tel:+351${contactPhone.replace(/\s/g, "")}`}
-            className="mt-3 block text-xs text-[var(--agency-muted)]"
-          >
-            BOOKING: {contactPhone} · {contactName}
-          </a>
+          <div className="mt-3 text-xs text-[var(--agency-muted)]">
+            BOOKING
+            {contacts.map((c) => (
+              <a key={c.phone} href={telHref(c.phone)} className="block">
+                {c.phone} · {c.name}
+              </a>
+            ))}
+          </div>
         </div>
       )}
     </header>

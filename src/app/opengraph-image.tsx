@@ -36,8 +36,15 @@ export default async function OgImage() {
             </span>
           ))}
         </div>
-        <div style={{ display: "flex", fontSize: 30, opacity: 0.7 }}>
-          {`Booking: ${settings.contactPhone} · ${settings.contactName}`}
+        <div style={{ display: "flex", fontSize: 28, opacity: 0.7 }}>
+          {[
+            `${settings.contactPhone} · ${settings.contactName}`,
+            settings.contactName2 && settings.contactPhone2
+              ? `${settings.contactPhone2} · ${settings.contactName2}`
+              : null,
+          ]
+            .filter(Boolean)
+            .join("   |   ")}
         </div>
       </div>
     ),

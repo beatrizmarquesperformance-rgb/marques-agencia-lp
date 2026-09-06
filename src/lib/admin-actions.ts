@@ -127,6 +127,8 @@ export async function saveSettings(fd: FormData) {
     ["ogImage", str(fd, "ogImage")],
     ["contactPhone", str(fd, "contactPhone")],
     ["contactName", str(fd, "contactName")],
+    ["contactPhone2", str(fd, "contactPhone2")],
+    ["contactName2", str(fd, "contactName2")],
     ["contactEmail", str(fd, "contactEmail")],
     ["bandsintownArtist", str(fd, "bandsintownArtist")],
     ["heroVideoProvider", str(fd, "heroVideoProvider") || "mp4"],

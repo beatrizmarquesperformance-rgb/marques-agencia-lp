@@ -20,8 +20,10 @@ export default async function SettingsPage({
           <h2 className="text-lg font-medium">Geral</h2>
           <Row name="siteName" label="Nome da agência (cabeçalho, rodapé, SEO)" defaultValue={s.siteName} />
           <Row name="ogImage" label="Imagem de partilha (Open Graph) — URL" defaultValue={s.ogImage} />
-          <Row name="contactPhone" label="Telefone de booking" defaultValue={s.contactPhone} />
-          <Row name="contactName" label="Nome de contacto" defaultValue={s.contactName} />
+          <Row name="contactPhone" label="Telefone de booking (1)" defaultValue={s.contactPhone} />
+          <Row name="contactName" label="Nome de contacto (1)" defaultValue={s.contactName} />
+          <Row name="contactPhone2" label="Telefone de booking (2) — opcional" defaultValue={s.contactPhone2} />
+          <Row name="contactName2" label="Nome de contacto (2) — opcional" defaultValue={s.contactName2} />
           <Row name="contactEmail" label="E-mail de contacto (opcional)" defaultValue={s.contactEmail} />
           <Row
             name="bandsintownArtist"

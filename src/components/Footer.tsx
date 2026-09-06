@@ -1,11 +1,12 @@
+import type { Contact } from "@/lib/types";
+import { telHref } from "@/lib/contacts";
+
 export function Footer({
   siteName,
-  contactPhone,
-  contactName,
+  contacts,
 }: {
   siteName: string | null;
-  contactPhone: string;
-  contactName: string;
+  contacts: Contact[];
 }) {
   const year = new Date().getFullYear();
   return (
@@ -17,18 +18,21 @@ export function Footer({
           </p>
           <p className="mt-2 text-sm">
             Reservas e informações:{" "}
-            <a
-              href={`tel:+351${contactPhone.replace(/\s/g, "")}`}
-              className="text-[var(--agency-fg)] underline underline-offset-4"
-            >
-              {contactPhone}
-            </a>{" "}
-            ({contactName})
+            {contacts.map((c, i) => (
+              <span key={c.phone}>
+                {i > 0 && " · "}
+                <a
+                  href={telHref(c.phone)}
+                  className="text-[var(--agency-fg)] underline underline-offset-4"
+                >
+                  {c.phone}
+                </a>{" "}
+                ({c.name})
+              </span>
+            ))}
           </p>
         </div>
-        <p className="text-xs">
-          © {year} · Todos os direitos reservados
-        </p>
+        <p className="text-xs">© {year} · Todos os direitos reservados</p>
       </div>
     </footer>
   );

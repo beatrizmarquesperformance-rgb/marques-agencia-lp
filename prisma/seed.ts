@@ -60,6 +60,8 @@ async function main() {
     ["siteName", s.siteName],
     ["contactPhone", s.contactPhone],
     ["contactName", s.contactName],
+    ["contactPhone2", s.contactPhone2],
+    ["contactName2", s.contactName2],
     ["contactEmail", s.contactEmail],
     ["bandsintownArtist", s.bandsintownArtist],
     ["heroVideoProvider", s.heroVideoProvider],

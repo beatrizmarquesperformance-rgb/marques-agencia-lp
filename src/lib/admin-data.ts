@@ -66,6 +66,8 @@ export async function adminSettings() {
     ogImage: map.ogImage ?? s.ogImage ?? "",
     contactPhone: map.contactPhone ?? s.contactPhone,
     contactName: map.contactName ?? s.contactName,
+    contactPhone2: map.contactPhone2 ?? s.contactPhone2 ?? "",
+    contactName2: map.contactName2 ?? s.contactName2 ?? "",
     contactEmail: map.contactEmail ?? s.contactEmail ?? "",
     bandsintownArtist: map.bandsintownArtist ?? s.bandsintownArtist ?? "",
     heroVideoProvider: map.heroVideoProvider ?? s.heroVideoProvider,

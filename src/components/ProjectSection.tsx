@@ -1,6 +1,7 @@
 import Image from "next/image";
-import type { Project } from "@/lib/types";
+import type { Project, Contact } from "@/lib/types";
 import { themeVars } from "@/lib/theme";
+import { telHref } from "@/lib/contacts";
 import type { CSSProperties } from "react";
 import { TornDivider } from "./TornDivider";
 import { SocialLinks } from "./SocialLinks";
@@ -82,9 +83,11 @@ function ProjectLogo({
 export function ProjectSection({
   project,
   index,
+  contacts,
 }: {
   project: Project;
   index: number;
+  contacts: Contact[];
 }) {
   const t = project.theme;
   const priority = index === 0;
@@ -212,9 +215,14 @@ export function ProjectSection({
                     Pedir proposta para {project.name}
                   </RequestProposalButton>
                   <SocialLinks socials={project.socials} />
-                  <p className="display text-sm text-[var(--secondary)]">
-                    BOOKING: 918 602 908 (PEDRO JARRAIS)
-                  </p>
+                  <div className="display text-sm leading-snug text-[var(--secondary)]">
+                    BOOKING
+                    {contacts.map((c) => (
+                      <a key={c.phone} href={telHref(c.phone)} className="block">
+                        {c.phone} ({c.name})
+                      </a>
+                    ))}
+                  </div>
                 </div>
               </RevealOnScroll>
             </div>

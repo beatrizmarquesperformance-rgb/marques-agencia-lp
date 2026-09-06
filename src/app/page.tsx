@@ -1,4 +1,5 @@
 import { getContent } from "@/lib/content";
+import { contactList } from "@/lib/contacts";
 import { Header } from "@/components/Header";
 import { HeroVideo } from "@/components/HeroVideo";
 import { CategoryRail } from "@/components/CategoryRail";
@@ -15,6 +16,7 @@ export default async function HomePage() {
   const { settings, projects, playedAt } = await getContent();
   const visible = projects.filter((p) => p.enabled);
   const options = visible.map((p) => ({ slug: p.slug, name: p.name }));
+  const contacts = contactList(settings);
 
   return (
     <ContactModalProvider projects={options}>
@@ -24,35 +26,27 @@ export default async function HomePage() {
       >
         Saltar para o conteúdo
       </a>
-      <Header
-        items={options}
-        contactPhone={settings.contactPhone}
-        contactName={settings.contactName}
-        siteName={settings.siteName}
-      />
+      <Header items={options} contacts={contacts} siteName={settings.siteName} />
 
       <main id="conteudo">
         <HeroVideo settings={settings} />
         <CategoryRail projects={visible} />
 
         {visible.map((project, i) => (
-          <ProjectSection key={project.slug} project={project} index={i} />
+          <ProjectSection
+            key={project.slug}
+            project={project}
+            index={i}
+            contacts={contacts}
+          />
         ))}
 
         <BandsintownEvents />
         <PlayedAtWall items={playedAt} />
-        <ContactSection
-          projects={options}
-          contactPhone={settings.contactPhone}
-          contactName={settings.contactName}
-        />
+        <ContactSection projects={options} contacts={contacts} />
       </main>
 
-      <Footer
-        siteName={settings.siteName}
-        contactPhone={settings.contactPhone}
-        contactName={settings.contactName}
-      />
+      <Footer siteName={settings.siteName} contacts={contacts} />
     </ContactModalProvider>
   );
 }
