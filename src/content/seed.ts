@@ -250,24 +250,34 @@ NÃO IMPORTA A ÉPOCA. NÃO IMPORTA O GÉNERO. SE É UM BANGER, É GANGBANGERS. 
       name: "ZARA G",
       order: 5,
       enabled: true,
-      comingSoon: true,
-      tagline: null,
-      description: "",
+      comingSoon: false,
+      tagline: "A ENERGIA E IRREVERÊNCIA DO HIP-HOP NACIONAL",
+      description: `ZARA G
+
+Um dos nomes marcantes do hip-hop nacional, Zara G construiu uma identidade própria tanto a solo como enquanto membro dos Wet Bed Gang, um dos grupos mais reconhecidos e influentes da música urbana portuguesa.
+
+Com milhões de streams, uma forte presença junto do público jovem e temas como "Chaminé", "50/50" e "100 Barras", Zara G leva a palco a energia e irreverência que caracterizam o seu percurso.
+
+Um espetáculo intenso e pensado para quem vive o rap e a cultura urbana, ideal para festas académicas, festivais, festas da juventude, discotecas e grandes eventos.`,
+      // Assets pendentes — hero, logótipo, fotos e vídeo de Zara G.
       heroImage: null,
-      heroAlt: "",
+      heroAlt: "Zara G ao vivo",
       logoImage: null,
       heroCutout: null,
       heroCutoutSide: "left",
       promoVideo: { provider: "mp4", src: null, poster: null },
       theme: {
-        bg: "#111111",
+        bg: "#0d0d10",
         primary: "#ffffff",
-        secondary: "#6b6b6b",
+        secondary: "#3a2c52",
         text: "#ffffff",
-        accent: "#ffffff",
+        accent: "#c9b8ff",
       },
       socials: [],
-      photos: [],
+      photos: Array.from({ length: 6 }, (_, i) => ({
+        image: null,
+        alt: `Fotografia ${i + 1} de Zara G`,
+      })),
       videos: [],
     },
   ],

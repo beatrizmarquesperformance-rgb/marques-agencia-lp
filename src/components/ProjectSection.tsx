@@ -9,18 +9,30 @@ import { VideoRow } from "./VideoRow";
 import { RevealOnScroll } from "./RevealOnScroll";
 import { RequestProposalButton } from "./RequestProposalButton";
 
-function ProjectCopy({ text }: { text: string }) {
+function ProjectCopy({ text, tagline }: { text: string; tagline: string | null }) {
   const parts = text
     .split(/\n\s*\n/)
     .map((p) => p.trim())
     .filter(Boolean);
-  const [lead, ...body] = parts;
+
+  // drop a bare leading title line (e.g. "ZARA G")
+  if (parts.length > 1 && parts[0].length < 24 && !/[.!?]/.test(parts[0])) {
+    parts.shift();
+  }
+
+  // use the first paragraph as the headline only when it's a punchy line;
+  // otherwise fall back to the tagline and keep the whole text as body.
+  const leadFromCopy = parts[0] && parts[0].length <= 100;
+  const lead = leadFromCopy ? parts[0] : tagline ?? parts[0];
+  const body = leadFromCopy ? parts.slice(1) : parts;
 
   return (
     <div className="max-w-[52ch]">
-      <p className="display !leading-[1.05] text-[1.7rem] text-[var(--accent)] sm:text-[2.15rem]">
-        {lead}
-      </p>
+      {lead && (
+        <p className="display !leading-[1.05] text-[1.7rem] text-[var(--accent)] sm:text-[2.15rem]">
+          {lead}
+        </p>
+      )}
       <div className="mt-8 space-y-6 text-[1.02rem] leading-[1.7] text-[var(--text)] sm:text-[1.15rem]">
         {body.map((p, i) => (
           <p key={i}>{p}</p>
@@ -137,14 +149,13 @@ export function ProjectSection({
           <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/25" />
         </div>
 
-        <div className="absolute inset-x-0 top-[30%] flex flex-col items-center gap-4 px-6 text-center">
-          <ProjectLogo project={project} />
-          {project.tagline && (
-            <p className="display max-w-2xl text-sm text-white/90 drop-shadow sm:text-base">
+        {project.tagline && (
+          <div className="absolute inset-x-0 top-[34%] flex justify-center px-6">
+            <p className="display max-w-3xl text-center text-2xl text-white drop-shadow-[0_2px_14px_rgba(0,0,0,0.65)] sm:text-4xl">
               {project.tagline}
             </p>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
       {/* Coloured content panel with a torn top edge, pulled up over the hero */}
@@ -187,7 +198,7 @@ export function ProjectSection({
 
               {/* row 2 */}
               <RevealOnScroll>
-                <ProjectCopy text={project.description} />
+                <ProjectCopy text={project.description} tagline={project.tagline} />
               </RevealOnScroll>
 
               <RevealOnScroll className="flex w-full max-w-[440px] flex-col gap-5 md:max-w-none">
