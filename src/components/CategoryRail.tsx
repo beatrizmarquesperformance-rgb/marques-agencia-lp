@@ -5,6 +5,14 @@ import { LazyVideo } from "./LazyVideo";
 import { ScrollLink } from "./ScrollLink";
 
 /**
+ * Rail CTA colouring. Default = primary fill / bg text. "invert" swaps them
+ * (bg fill / primary text): Funkiss → pink button, Gangbangers → blue button
+ * with pink letters, Marques → cyan button (its primary is near-black and
+ * would vanish on the dark rail otherwise).
+ */
+const RAIL_CTA_INVERT = new Set(["funkiss", "gangbangers", "marques"]);
+
+/**
  * Row of one vertical (9:16) video per project, each with a CTA that scrolls to
  * that project's section. Single row on desktop; horizontal snap-carousel on
  * tablet/mobile so the vertical format is never squashed.
@@ -26,9 +34,10 @@ export function CategoryRail({ projects }: { projects: Project[] }) {
           className="mt-8 grid auto-cols-[74%] grid-flow-col gap-4 overflow-x-auto pb-2 snap-x snap-mandatory no-scrollbar sm:auto-cols-[42%] md:auto-cols-[30%] lg:grid-flow-row lg:grid-cols-5 lg:overflow-visible"
         >
           {projects.map((p) => {
+            const invert = RAIL_CTA_INVERT.has(p.slug);
             const ctaStyle = {
-              "--cta-fill": p.theme.primary,
-              "--cta-ink": p.theme.bg,
+              "--cta-fill": invert ? p.theme.bg : p.theme.primary,
+              "--cta-ink": invert ? p.theme.primary : p.theme.bg,
             } as CSSProperties;
             return (
               <li key={p.slug} className="flex snap-start flex-col">
