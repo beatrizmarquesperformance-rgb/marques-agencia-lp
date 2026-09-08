@@ -12,6 +12,7 @@
     "db:studio": "prisma studio"
   },
   "dependencies": {
+    "@netlify/database": "^2.0.1",
     "@prisma/client": "^6.2.1",
     "@vercel/blob": "^2.8.0",
     "jose": "^5.9.6",

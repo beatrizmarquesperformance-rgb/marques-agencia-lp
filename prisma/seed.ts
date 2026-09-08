@@ -1,7 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 import { seedContent } from "../src/content/seed";
 
-const prisma = new PrismaClient();
+const url = process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL;
+const prisma = new PrismaClient(
+  url ? { datasources: { db: { url } } } : undefined,
+);
 
 async function main() {
   for (const p of seedContent.projects) {
