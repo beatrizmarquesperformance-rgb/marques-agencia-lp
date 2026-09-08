@@ -5,8 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // Netlify DB (Neon) injects NETLIFY_DATABASE_URL on deploy.
-  url      = env("NETLIFY_DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
 model Project {
