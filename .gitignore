@@ -11,3 +11,6 @@ npm-debug.log*
 next-env.d.ts
 /prisma/dev.db
 /assets-src
+
+# Local Netlify folder
+.netlify
