@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { prisma } from "@/lib/db";
+import { notifyTelegram } from "@/lib/telegram";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -46,6 +47,9 @@ export async function POST(req: NextRequest) {
     console.error("[contact] failed to store lead:", err);
     return NextResponse.json({ error: "server" }, { status: 500 });
   }
+
+  // Notify Telegram — awaited so serverless doesn't kill it, but never fatal.
+  await notifyTelegram({ name, email, phone, project, message, source, dates });
 
   return NextResponse.json({ ok: true });
 }
