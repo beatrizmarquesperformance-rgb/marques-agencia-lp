@@ -1,12 +1,12 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { uploadImage } from "@/lib/upload-client";
+import { uploadImage, uploadVideo } from "@/lib/upload-client";
 
 export interface FieldSpec {
   name: string;
   label: string;
-  type?: "text" | "url" | "select" | "image";
+  type?: "text" | "url" | "select" | "image" | "video";
   options?: string[];
   placeholder?: string;
   wide?: boolean;
@@ -72,8 +72,9 @@ export function RowsEditor({
                     </option>
                   ))}
                 </select>
-              ) : f.type === "image" ? (
-                <ImageInput
+              ) : f.type === "image" || f.type === "video" ? (
+                <MediaInput
+                  kind={f.type}
                   name={f.name}
                   value={row[f.name] ?? ""}
                   onChange={(v) => update(i, f.name, v)}
@@ -128,11 +129,13 @@ export function RowsEditor({
   );
 }
 
-function ImageInput({
+function MediaInput({
+  kind,
   name,
   value,
   onChange,
 }: {
+  kind: "image" | "video";
   name: string;
   value: string;
   onChange: (v: string) => void;
@@ -143,7 +146,7 @@ function ImageInput({
   async function send(file: File) {
     setBusy(true);
     try {
-      onChange(await uploadImage(file));
+      onChange(kind === "video" ? await uploadVideo(file) : await uploadImage(file));
     } catch (e) {
       alert((e as Error).message || "Falha no upload.");
     } finally {
@@ -153,7 +156,7 @@ function ImageInput({
 
   return (
     <span className="mt-0.5 flex items-center gap-2">
-      {value ? (
+      {value && kind === "image" ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={value} alt="" className="h-9 w-9 border border-neutral-700 object-cover" />
       ) : null}
@@ -163,7 +166,7 @@ function ImageInput({
         inputMode="url"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        placeholder="URL ou carregar →"
+        placeholder={kind === "video" ? "URL/ID ou carregar MP4 →" : "URL ou carregar →"}
         className="w-full bg-neutral-950 px-2 py-1 text-sm text-white"
       />
       <button
@@ -177,7 +180,7 @@ function ImageInput({
       <input
         ref={ref}
         type="file"
-        accept="image/*"
+        accept={kind === "video" ? "video/mp4,video/webm,video/quicktime" : "image/*"}
         hidden
         onChange={(e) => {
           const f = e.target.files?.[0];

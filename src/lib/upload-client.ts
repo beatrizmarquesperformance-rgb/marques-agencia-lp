@@ -36,17 +36,32 @@ async function toOptimisedBlob(file: File): Promise<{ blob: Blob; ext: string }>
   return { blob, ext: "webp" };
 }
 
-export async function uploadImage(file: File): Promise<string> {
-  const { blob, ext } = await toOptimisedBlob(file);
-
+async function postToBlob(blob: Blob, filename: string): Promise<string> {
   const form = new FormData();
-  form.append("file", blob, `image.${ext}`);
-
+  form.append("file", blob, filename);
   const res = await fetch("/api/admin/upload", { method: "POST", body: form });
   const data = (await res.json().catch(() => ({}))) as { url?: string; error?: string };
-
   if (!res.ok || !data.url) {
     throw new Error(data.error || `Falha no upload (${res.status})`);
   }
   return data.url;
+}
+
+export async function uploadImage(file: File): Promise<string> {
+  const { blob, ext } = await toOptimisedBlob(file);
+  return postToBlob(blob, `image.${ext}`);
+}
+
+/** Hosting is served through a serverless function — keep video uploads small. */
+export const MAX_VIDEO_BYTES = 4 * 1024 * 1024;
+
+export async function uploadVideo(file: File): Promise<string> {
+  if (file.size > MAX_VIDEO_BYTES) {
+    throw new Error(
+      `Vídeo demasiado grande (${(file.size / 1048576).toFixed(1)} MB, máx. 4 MB). ` +
+        `Para vídeos maiores usa um link do YouTube/Vimeo (mete só o ID) ou pede ao programador para o alojar.`,
+    );
+  }
+  const ext = file.name.split(".").pop()?.toLowerCase() || "mp4";
+  return postToBlob(file, `video.${ext}`);
 }

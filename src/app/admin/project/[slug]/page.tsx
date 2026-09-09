@@ -159,7 +159,7 @@ export default async function ProjectEditPage({
       <section>
         <h2 className="text-lg font-medium">Fotos</h2>
         <p className="mb-2 text-xs text-neutral-500">
-          Cola o URL de cada foto (Vercel Blob quando o upload estiver ligado). Reordena com ↑ ↓.
+          Carrega o ficheiro (⬆︎) ou cola um URL. Reordena com ↑ ↓.
         </p>
         <RowsEditor
           action={replacePhotos.bind(null, slug)}
@@ -177,8 +177,9 @@ export default async function ProjectEditPage({
       <section>
         <h2 className="text-lg font-medium">Vídeos</h2>
         <p className="mb-2 text-xs text-neutral-500">
-          2 a 4 vídeos. Para YouTube/Vimeo usa o ID; para MP4/Mux/Cloudflare usa o URL ou
-          playback ID.
+          Fonte <strong>youtube</strong> / <strong>vimeo</strong> → mete só o ID do vídeo.
+          Fonte <strong>mp4</strong> → carrega um ficheiro (máx. 4&nbsp;MB) ou cola um URL.
+          Para vídeos MP4 maiores, usa antes um link do YouTube/Vimeo.
         </p>
         <RowsEditor
           action={replaceVideos.bind(null, slug)}
@@ -196,7 +197,7 @@ export default async function ProjectEditPage({
               type: "select",
               options: ["mp4", "mux", "youtube", "vimeo", "cloudflare"],
             },
-            { name: "src", label: "URL / ID", wide: true },
+            { name: "src", label: "URL / ID", type: "video", wide: true },
             { name: "poster", label: "Poster", type: "image", wide: true },
             { name: "title", label: "Título", wide: true },
           ]}

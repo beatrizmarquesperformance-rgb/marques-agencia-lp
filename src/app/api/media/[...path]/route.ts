@@ -8,6 +8,9 @@ const TYPE_BY_EXT: Record<string, string> = {
   webp: "image/webp",
   avif: "image/avif",
   svg: "image/svg+xml",
+  mp4: "video/mp4",
+  webm: "video/webm",
+  mov: "video/quicktime",
 };
 
 /** Serves images uploaded via the admin (stored in Netlify Blobs). */

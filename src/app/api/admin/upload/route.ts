@@ -2,22 +2,20 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getStore } from "@netlify/blobs";
 import { isAuthed } from "@/lib/auth";
 
-const ALLOWED = new Set([
-  "image/jpeg",
-  "image/png",
-  "image/webp",
-  "image/avif",
-  "image/svg+xml",
-]);
+const EXT: Record<string, string> = {
+  "image/jpeg": "jpg",
+  "image/png": "png",
+  "image/webp": "webp",
+  "image/avif": "avif",
+  "image/svg+xml": "svg",
+  "video/mp4": "mp4",
+  "video/webm": "webm",
+  "video/quicktime": "mov",
+};
+const ALLOWED = new Set(Object.keys(EXT));
 const MAX_BYTES = 8 * 1024 * 1024;
 
-function extFor(type: string): string {
-  return (
-    { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "image/avif": "avif", "image/svg+xml": "svg" }[
-      type
-    ] || "bin"
-  );
-}
+const extFor = (type: string): string => EXT[type] || "bin";
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   if (!(await isAuthed())) {

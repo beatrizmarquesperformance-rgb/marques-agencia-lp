@@ -280,7 +280,14 @@ Um espetáculo intenso e pensado para quem vive o rap e a cultura urbana, ideal 
         image: null,
         alt: `Fotografia ${i + 1} de Zara G`,
       })),
-      videos: [],
+      videos: [
+        {
+          provider: "mp4",
+          src: "/media/zara-g/v1.mp4",
+          poster: "/media/zara-g/v1-poster.webp",
+          title: "Zara G ao vivo",
+        },
+      ],
     },
   ],
 };
