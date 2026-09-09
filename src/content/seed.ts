@@ -267,7 +267,11 @@ Um espetáculo intenso e pensado para quem vive o rap e a cultura urbana, ideal 
       logoImage: null,
       heroCutout: null,
       heroCutoutSide: "left",
-      promoVideo: { provider: "mp4", src: null, poster: null },
+      promoVideo: {
+        provider: "mp4",
+        src: "/media/zara-g/promo.mp4",
+        poster: "/media/zara-g/promo-poster.webp",
+      },
       theme: {
         bg: "#0d0d10",
         primary: "#ffffff",
