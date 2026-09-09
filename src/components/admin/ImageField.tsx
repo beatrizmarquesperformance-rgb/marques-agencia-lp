@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { upload } from "@vercel/blob/client";
+import { uploadImage } from "@/lib/upload-client";
 
 /**
  * Image picker for the admin. Uploads straight to Vercel Blob when configured;
@@ -28,11 +28,7 @@ export function ImageField({
     setBusy(true);
     setError(null);
     try {
-      const res = await upload(file.name, file, {
-        access: "public",
-        handleUploadUrl: "/api/admin/upload",
-      });
-      setValue(res.url);
+      setValue(await uploadImage(file));
     } catch (e) {
       setError((e as Error).message || "Falha no upload.");
     } finally {

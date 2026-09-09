@@ -57,8 +57,8 @@ assets-src/
   gangbangers/  (Logotipo, Aftermovie, Shorts)                ← no photos supplied
 ```
 
-Then either paste URLs in `/admin` or (once `BLOB_READ_WRITE_TOKEN` is set) use the
-upload buttons.
+In `/admin`, upload with the "Carregar ficheiro" buttons (stored in Netlify
+Blobs, served from `/api/media/...`) or paste an external URL.
 
 ### Known asset gaps (from inspection)
 

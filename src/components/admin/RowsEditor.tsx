@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { upload } from "@vercel/blob/client";
+import { uploadImage } from "@/lib/upload-client";
 
 export interface FieldSpec {
   name: string;
@@ -142,11 +142,7 @@ function ImageInput({
   async function send(file: File) {
     setBusy(true);
     try {
-      const res = await upload(file.name, file, {
-        access: "public",
-        handleUploadUrl: "/api/admin/upload",
-      });
-      onChange(res.url);
+      onChange(await uploadImage(file));
     } catch (e) {
       alert((e as Error).message || "Falha no upload.");
     } finally {
