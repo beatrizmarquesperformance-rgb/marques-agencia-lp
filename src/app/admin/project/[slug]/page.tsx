@@ -35,7 +35,7 @@ export default async function ProjectEditPage({
       </div>
 
       {/* Core fields */}
-      <form action={saveProject.bind(null, slug)} className="space-y-4">
+      <form action={saveProject.bind(null, slug)} noValidate className="space-y-4">
         <h2 className="text-lg font-medium">Texto & identidade</h2>
         <div className="grid gap-3 sm:grid-cols-2">
           <Field name="name" label="Nome" defaultValue={p.name} />

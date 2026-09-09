@@ -46,7 +46,7 @@ export function RowsEditor({
     });
 
   return (
-    <form action={action} className="space-y-3">
+    <form action={action} noValidate className="space-y-3">
       {saved && <p className="text-sm text-green-400">Guardado.</p>}
       {rows.map((row, i) => (
         <div
@@ -81,7 +81,8 @@ export function RowsEditor({
               ) : (
                 <input
                   name={f.name}
-                  type={f.type === "url" ? "url" : "text"}
+                  type="text"
+                  inputMode={f.type === "url" ? "url" : "text"}
                   value={row[f.name] ?? ""}
                   placeholder={f.placeholder}
                   onChange={(e) => update(i, f.name, e.target.value)}
@@ -158,7 +159,8 @@ function ImageInput({
       ) : null}
       <input
         name={name}
-        type="url"
+        type="text"
+        inputMode="url"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder="URL ou carregar →"

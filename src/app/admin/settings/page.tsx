@@ -15,7 +15,7 @@ export default async function SettingsPage({
       <h1 className="text-2xl font-semibold">Definições</h1>
       {saved && <p className="mt-1 text-sm text-green-400">Guardado.</p>}
 
-      <form action={saveSettings} className="mt-6 space-y-8">
+      <form action={saveSettings} noValidate className="mt-6 space-y-8">
         <section className="space-y-4">
           <h2 className="text-lg font-medium">Geral</h2>
           <Row name="siteName" label="Nome da agência (cabeçalho, rodapé, SEO)" defaultValue={s.siteName} />

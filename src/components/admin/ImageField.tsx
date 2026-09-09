@@ -73,7 +73,8 @@ export function ImageField({
             )}
           </div>
           <input
-            type="url"
+            type="text"
+            inputMode="url"
             value={value}
             onChange={(e) => setValue(e.target.value)}
             placeholder="ou colar um URL"
