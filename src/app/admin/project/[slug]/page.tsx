@@ -83,9 +83,10 @@ export default async function ProjectEditPage({
               ))}
             </select>
           </label>
-          <Field
+          <ImageField
+            kind="video"
             name="promoSrc"
-            label="Vídeo vertical — URL (mp4) ou ID"
+            label="Vídeo vertical — carrega MP4 (≤ 4 MB) ou cola URL / ID"
             defaultValue={p.promoVideo.src ?? ""}
           />
           <ImageField

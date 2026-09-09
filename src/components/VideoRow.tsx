@@ -2,8 +2,8 @@ import type { Video } from "@/lib/types";
 import { LazyVideo } from "./LazyVideo";
 
 /**
- * Watchable clips for a project section, stacked to fill the right column
- * (the aftermovies are vertical). Nothing loads until the poster is clicked.
+ * The clip(s) for a project section, stacked to fill the right column (the
+ * aftermovies are vertical). Autoplays muted + looping while on screen.
  */
 export function VideoRow({ videos }: { videos: Video[] }) {
   const valid = videos.filter((v) => v.src && v.src.trim().length > 0);
@@ -20,7 +20,7 @@ export function VideoRow({ videos }: { videos: Video[] }) {
             provider={v.provider}
             src={v.src}
             poster={v.poster}
-            mode="click"
+            mode="background"
             label={v.title}
             posterSizes="(max-width: 768px) 90vw, 380px"
             className="aspect-[9/16]"

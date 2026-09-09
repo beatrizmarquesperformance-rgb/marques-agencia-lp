@@ -271,9 +271,9 @@ Um espetáculo intenso e pensado para quem vive o rap e a cultura urbana, ideal 
       theme: {
         bg: "#0d0d10",
         primary: "#ffffff",
-        secondary: "#3a2c52",
+        secondary: "#5b3d8a",
         text: "#ffffff",
-        accent: "#c9b8ff",
+        accent: "#c77dff",
       },
       socials: [],
       photos: Array.from({ length: 6 }, (_, i) => ({

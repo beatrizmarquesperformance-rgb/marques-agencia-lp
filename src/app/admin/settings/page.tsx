@@ -46,10 +46,12 @@ export default async function SettingsPage({
               ))}
             </select>
           </label>
-          <Row
+          <ImageField
+            kind="video"
             name="heroVideoSrc"
-            label="URL do vídeo (mp4) ou ID (YouTube/Vimeo/Mux/Cloudflare)"
+            label="Vídeo do topo — carrega MP4 (≤ 4 MB) ou cola URL / ID (YouTube, Vimeo, Mux…)"
             defaultValue={s.heroVideoSrc}
+            hint="Para um vídeo MP4 maior, usa antes um link do YouTube/Vimeo (fonte = youtube/vimeo, mete só o ID)."
           />
           <ImageField
             name="heroVideoPoster"
