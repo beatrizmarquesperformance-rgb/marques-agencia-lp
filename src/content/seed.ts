@@ -6,9 +6,9 @@ import type { SiteContent } from "@/lib/types";
  *
  * RULES (from the brief):
  *  - Copy for MARQUES / PIMBA / FUNKISS / GANGBANGERS is verbatim and must not be altered.
- *  - ZARA G has no content yet — structure only, `comingSoon: true`.
- *  - No invented social URLs. `socials: []` until the real links are provided.
- *  - `heroImage` / photo `image` / `logoImage` = null until the real Dropbox assets are placed.
+ *  - No invented social URLs — the Instagram links below were confirmed by the client
+ *    (entered in the backoffice on 2026-09-09).
+ *  - ZARA G gallery photos + logo are still pending real assets (`image: null` placeholders).
  */
 export const seedContent: SiteContent = {
   settings: {
@@ -65,7 +65,9 @@ Com uma identidade própria e uma presença cada vez mais consolidada no panoram
         text: "#06131a",
         accent: "#0b0b0b",
       },
-      socials: [], // real Instagram URL pending
+      socials: [
+        { platform: "instagram", url: "https://www.instagram.com/_djmarques_/" },
+      ],
       photos: [
         { image: "/media/marques/g1.webp", alt: "DJ Marques — sessão de estúdio" },
         { image: "/media/marques/g2.webp", alt: "DJ Marques — retrato" },
@@ -121,7 +123,9 @@ NO PIMBA À BRUTA, A VERGONHA E A INDIFERENÇA FICAM À ENTRADA. CÁ DENTRO, É 
         text: "#ffffff",
         accent: "#ffe14d",
       },
-      socials: [], // Instagram + TikTok URLs pending
+      socials: [
+        { platform: "instagram", url: "https://www.instagram.com/pimbaabruta/" },
+      ],
       photos: [
         { image: "/media/pimba/g1.webp", alt: "Pimba à Bruta — bastidores" },
         { image: "/media/pimba/g2.webp", alt: "Pimba à Bruta ao vivo" },
@@ -174,7 +178,9 @@ Ao longo do seu percurso, a FUNKISS já marcou presença em vários festivais, e
         text: "#ffffff",
         accent: "#ffd23f",
       },
-      socials: [],
+      socials: [
+        { platform: "instagram", url: "https://www.instagram.com/kisscamparty/" },
+      ],
       photos: [
         { image: "/media/funkiss/g1.webp", alt: "Funkiss — sessão de estúdio" },
         { image: "/media/funkiss/g2.webp", alt: "Funkiss — sessão de estúdio" },
@@ -229,7 +235,9 @@ NÃO IMPORTA A ÉPOCA. NÃO IMPORTA O GÉNERO. SE É UM BANGER, É GANGBANGERS. 
         text: "#ffffff",
         accent: "#37c8ff",
       },
-      socials: [],
+      socials: [
+        { platform: "instagram", url: "https://www.instagram.com/gangbngers/" },
+      ],
       photos: [
         { image: "/media/gangbangers/g1.webp", alt: "DJ na Gangbangers" },
         { image: "/media/gangbangers/g2.webp", alt: "Bailarina na Gangbangers" },
@@ -261,8 +269,9 @@ Um dos nomes marcantes do hip-hop nacional, Zara G construiu uma identidade pró
 Com milhões de streams, uma forte presença junto do público jovem e temas como "Chaminé", "50/50" e "100 Barras", Zara G leva a palco a energia e irreverência que caracterizam o seu percurso.
 
 Um espetáculo intenso e pensado para quem vive o rap e a cultura urbana, ideal para festas académicas, festivais, festas da juventude, discotecas e grandes eventos.`,
-      // Assets pendentes — hero, logótipo, fotos e vídeo de Zara G.
-      heroImage: null,
+      // hero carregado pela cliente no backoffice (guardado localmente).
+      // Logótipo e fotos de galeria ainda pendentes.
+      heroImage: "/media/zara-g/hero.webp",
       heroAlt: "Zara G ao vivo",
       logoImage: null,
       heroCutout: null,
@@ -279,7 +288,9 @@ Um espetáculo intenso e pensado para quem vive o rap e a cultura urbana, ideal 
         text: "#ffffff",
         accent: "#c77dff",
       },
-      socials: [],
+      socials: [
+        { platform: "instagram", url: "https://www.instagram.com/zaragvb/" },
+      ],
       photos: Array.from({ length: 6 }, (_, i) => ({
         image: null,
         alt: `Fotografia ${i + 1} de Zara G`,
