@@ -56,7 +56,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       const out = await sharp(Buffer.from(data), { failOn: "none" })
         .rotate()
         .resize(2400, 2400, { fit: "inside", withoutEnlargement: true })
-        .webp({ quality: 82 })
+        .webp({ quality: 82, effort: 3 })
         .toBuffer();
       data = out.buffer.slice(out.byteOffset, out.byteOffset + out.byteLength) as ArrayBuffer;
       ext = "webp";

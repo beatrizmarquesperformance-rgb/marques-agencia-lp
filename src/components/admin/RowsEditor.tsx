@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { uploadImage, uploadVideo } from "@/lib/upload-client";
+import { useUploadGuard } from "./UploadGuard";
 
 export interface FieldSpec {
   name: string;
@@ -142,14 +143,17 @@ function MediaInput({
 }) {
   const ref = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
+  const guard = useUploadGuard();
 
   async function send(file: File) {
     setBusy(true);
+    guard.begin();
     try {
       onChange(kind === "video" ? await uploadVideo(file) : await uploadImage(file));
     } catch (e) {
       alert((e as Error).message || "Falha no upload.");
     } finally {
+      guard.end();
       setBusy(false);
     }
   }

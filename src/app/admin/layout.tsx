@@ -1,16 +1,21 @@
 import Link from "next/link";
 import { logout } from "@/lib/admin-actions";
 import { hasDb } from "@/lib/db";
+import { UploadGuard } from "@/components/admin/UploadGuard";
 
 export const dynamic = "force-dynamic";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
+    <UploadGuard>
     <div className="min-h-screen bg-neutral-950 text-neutral-100">
       <header className="flex items-center justify-between border-b border-neutral-800 px-5 py-3">
         <nav className="flex items-center gap-4 text-sm">
           <Link href="/admin" className="font-semibold">
             Conteúdos
+          </Link>
+          <Link href="/admin/videos" className="text-neutral-400 hover:text-white">
+            Vídeos
           </Link>
           <Link href="/admin/settings" className="text-neutral-400 hover:text-white">
             Definições
@@ -44,5 +49,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       <main className="mx-auto max-w-3xl px-5 py-8">{children}</main>
     </div>
+    </UploadGuard>
   );
 }

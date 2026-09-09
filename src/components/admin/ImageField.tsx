@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { uploadImage, uploadVideo } from "@/lib/upload-client";
+import { useUploadGuard } from "./UploadGuard";
 
 /**
  * Media picker for admin forms (single field, not a repeater row).
@@ -26,15 +27,18 @@ export function ImageField({
   const [error, setError] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const isVideo = kind === "video";
+  const guard = useUploadGuard();
 
   async function onPick(file: File) {
     setBusy(true);
     setError(null);
+    guard.begin();
     try {
       setValue(isVideo ? await uploadVideo(file) : await uploadImage(file));
     } catch (e) {
       setError((e as Error).message || "Falha no upload.");
     } finally {
+      guard.end();
       setBusy(false);
     }
   }

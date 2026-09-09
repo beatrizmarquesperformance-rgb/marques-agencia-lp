@@ -144,6 +144,38 @@ export async function saveSettings(fd: FormData) {
   redirect("/admin/settings?saved=1");
 }
 
+/** Just the page-top hero video (a subset of settings). */
+export async function saveHeroVideo(fd: FormData) {
+  const db = await guard();
+  const entries: [string, string][] = [
+    ["heroVideoProvider", str(fd, "heroVideoProvider") || "mp4"],
+    ["heroVideoSrc", str(fd, "heroVideoSrc")],
+    ["heroVideoPoster", str(fd, "heroVideoPoster")],
+    ["heroHeadline", str(fd, "heroHeadline")],
+    ["heroSubhead", str(fd, "heroSubhead")],
+  ];
+  for (const [key, value] of entries) {
+    await db.setting.upsert({ where: { key }, update: { value }, create: { key, value } });
+  }
+  bust();
+  redirect("/admin/videos?saved=hero");
+}
+
+/** Just one project's vertical rail video. */
+export async function savePromoVideo(slug: string, fd: FormData) {
+  const db = await guard();
+  await db.project.update({
+    where: { slug },
+    data: {
+      promoProvider: str(fd, "promoProvider") || "mp4",
+      promoSrc: str(fd, "promoSrc") || null,
+      promoPoster: str(fd, "promoPoster") || null,
+    },
+  });
+  bust();
+  redirect(`/admin/videos?saved=${slug}`);
+}
+
 export async function savePlayedAt(fd: FormData) {
   const db = await guard();
   const names = fd.getAll("name").map(String);
