@@ -9,6 +9,7 @@ build
 npm-debug.log*
 .vercel
 next-env.d.ts
+*.tsbuildinfo
 /prisma/dev.db
 /assets-src
 

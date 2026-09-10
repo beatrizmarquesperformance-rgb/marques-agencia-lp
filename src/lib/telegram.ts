@@ -25,10 +25,13 @@ export interface LeadMessage {
   name: string;
   email: string;
   phone: string;
+  company?: string;
   project: string;
   message: string;
   source: "modal" | "page";
   dates: string[];
+  /** "Nome — Empresa" of the partner that referred this lead, if any. */
+  referralLabel?: string;
 }
 
 /**
@@ -42,9 +45,11 @@ export async function notifyTelegram(lead: LeadMessage): Promise<void> {
     `🎯 <b>Nova lead${lead.project ? ` — ${esc(lead.project)}` : ""}</b>`,
     "",
     `👤 <b>${esc(lead.name)}</b>`,
+    lead.company ? `🏢 ${esc(lead.company)}` : "",
     `📧 ${esc(lead.email)}`,
     `📱 ${esc(lead.phone)}`,
     `📅 ${esc(formatDates(lead.dates))}`,
+    lead.referralLabel ? `🤝 Indicado por: ${esc(lead.referralLabel)}` : "",
     lead.message ? `\n📝 ${esc(lead.message)}` : "",
     "",
     `<i>${lead.source === "page" ? "formulário geral" : "pop-up"} · ${new Date().toLocaleString("pt-PT", { timeZone: "Europe/Lisbon" })}</i>`,

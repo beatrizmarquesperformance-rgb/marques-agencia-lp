@@ -10,8 +10,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <UploadGuard>
     <div className="min-h-screen bg-neutral-950 text-neutral-100">
       <header className="flex items-center justify-between border-b border-neutral-800 px-5 py-3">
-        <nav className="flex items-center gap-4 text-sm">
+        <nav className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
           <Link href="/admin" className="font-semibold">
+            Dashboard
+          </Link>
+          <Link href="/admin/referrals" className="text-neutral-400 hover:text-white">
+            Referrals
+          </Link>
+          <Link href="/admin/leads" className="text-neutral-400 hover:text-white">
+            Leads
+          </Link>
+          <Link href="/admin/conteudos" className="text-neutral-400 hover:text-white">
             Conteúdos
           </Link>
           <Link href="/admin/videos" className="text-neutral-400 hover:text-white">
@@ -22,9 +31,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </Link>
           <Link href="/admin/played-at" className="text-neutral-400 hover:text-white">
             Já passámos por
-          </Link>
-          <Link href="/admin/leads" className="text-neutral-400 hover:text-white">
-            Pedidos
           </Link>
           <a
             href="/"

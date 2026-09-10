@@ -33,6 +33,7 @@ export function ContactForm({
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [company, setCompany] = useState("");
   const [dates, setDates] = useState<string[]>([]);
   const [project, setProject] = useState(defaultProject);
   const [message, setMessage] = useState("");
@@ -60,7 +61,7 @@ export function ContactForm({
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone, dates, project, message, source, website }),
+        body: JSON.stringify({ name, email, phone, company, dates, project, message, source, website }),
       });
       if (!res.ok) throw new Error(String(res.status));
       setStatus("success");
@@ -81,7 +82,7 @@ export function ContactForm({
           <button
             type="button"
             onClick={() => {
-              setName(""); setEmail(""); setPhone(""); setDates([]);
+              setName(""); setEmail(""); setPhone(""); setCompany(""); setDates([]);
               setProject(defaultProject); setMessage(""); setStatus("idle");
             }}
             className="cta mt-6"
@@ -146,6 +147,16 @@ export function ContactForm({
           {errors.phone && (
             <span id={`${uid}-phone-err`} className="field-error">{errors.phone}</span>
           )}
+        </label>
+
+        <label className="flex flex-col gap-1">
+          <span className="field-label">Empresa</span>
+          <input
+            className="field"
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
+            autoComplete="organization"
+          />
         </label>
 
         <label className="flex flex-col gap-1">

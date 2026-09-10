@@ -1,46 +1,90 @@
 import Link from "next/link";
-import { adminProjects } from "@/lib/admin-data";
+import { hasDb } from "@/lib/db";
+import { dashboardStats } from "@/lib/crm-data";
+import { LEAD_STATUSES, LEAD_STATUS_LABEL } from "@/lib/types";
+import { MiniBarChart } from "@/components/admin/MiniBarChart";
 
-export default async function AdminHome() {
-  const projects = await adminProjects();
+export default async function DashboardPage() {
+  const s = await dashboardStats();
+
   return (
-    <div>
-      <h1 className="text-2xl font-semibold">Projetos</h1>
-      <p className="mt-1 text-sm text-neutral-400">
-        Edita texto, cores, fotos, vídeos e redes sociais de cada projeto.
-      </p>
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-2xl font-semibold">Dashboard</h1>
+        <p className="mt-1 text-sm text-neutral-400">
+          Visão geral de leads e parceiros (referrals).
+        </p>
+      </div>
 
-      <ul className="mt-6 divide-y divide-neutral-800 border border-neutral-800">
-        {projects.map((p) => (
-          <li key={p.slug}>
-            <Link
-              href={`/admin/project/${p.slug}`}
-              className="flex items-center justify-between px-4 py-3 hover:bg-neutral-900"
-            >
-              <span className="flex items-center gap-3">
-                <span
-                  className="inline-block h-4 w-4 rounded-sm border border-neutral-700"
-                  style={{ background: p.theme.bg }}
-                />
-                <span className="font-medium">{p.name}</span>
-                {p.comingSoon && (
-                  <span className="rounded bg-neutral-800 px-1.5 py-0.5 text-[10px] uppercase text-neutral-400">
-                    Em breve
-                  </span>
-                )}
-                {!p.enabled && (
-                  <span className="rounded bg-red-900/60 px-1.5 py-0.5 text-[10px] uppercase text-red-300">
-                    Oculto
-                  </span>
-                )}
-              </span>
-              <span className="text-xs text-neutral-500">
-                {p.photos.length} fotos · {p.videos.length} vídeos · {p.socials.length} redes
-              </span>
+      {!hasDb && (
+        <p className="rounded border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-300">
+          Base de dados não ligada — sem métricas. Define <code>DATABASE_URL</code>.
+        </p>
+      )}
+
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <Stat label="Total leads" value={s.totalLeads} />
+        <Stat label="Leads este mês" value={s.leadsThisMonth} />
+        <Stat label="Total referrals" value={s.totalReferrals} />
+        <Stat label="Referrals ativos" value={s.activeReferrals} />
+      </div>
+
+      <section className="rounded border border-neutral-800 p-4">
+        <h2 className="text-sm font-medium text-neutral-300">Leads — últimos 14 dias</h2>
+        <div className="mt-3">
+          <MiniBarChart data={s.last14Days} />
+        </div>
+      </section>
+
+      <div className="grid gap-6 md:grid-cols-2">
+        <section className="rounded border border-neutral-800 p-4">
+          <h2 className="text-sm font-medium text-neutral-300">Leads por estado</h2>
+          <ul className="mt-3 space-y-1.5 text-sm">
+            {LEAD_STATUSES.map((st) => (
+              <li key={st} className="flex items-center justify-between">
+                <span className="text-neutral-400">{LEAD_STATUS_LABEL[st]}</span>
+                <span className="tabular-nums text-neutral-200">{s.byStatus[st]}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="rounded border border-neutral-800 p-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-sm font-medium text-neutral-300">Top referrals</h2>
+            <Link href="/admin/referrals" className="text-xs text-neutral-500 hover:text-white">
+              Ver todos →
             </Link>
-          </li>
-        ))}
-      </ul>
+          </div>
+          {s.topReferrals.length === 0 ? (
+            <p className="mt-3 text-sm text-neutral-600">Ainda sem leads atribuídas.</p>
+          ) : (
+            <ul className="mt-3 space-y-1.5 text-sm">
+              {s.topReferrals.map((r) => (
+                <li key={r.id} className="flex items-center justify-between">
+                  <Link
+                    href={`/admin/referrals/${r.id}`}
+                    className="truncate text-neutral-300 hover:text-white"
+                  >
+                    {r.name}
+                    {r.company && <span className="text-neutral-500"> · {r.company}</span>}
+                  </Link>
+                  <span className="tabular-nums text-neutral-200">{r.leadCount}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      </div>
+    </div>
+  );
+}
+
+function Stat({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="rounded border border-neutral-800 p-4">
+      <div className="text-2xl font-semibold tabular-nums">{value}</div>
+      <div className="mt-1 text-[11px] uppercase tracking-wide text-neutral-500">{label}</div>
     </div>
   );
 }

@@ -93,3 +93,82 @@ export interface SiteContent {
   projects: Project[];
   playedAt: PlayedAt[];
 }
+
+/* ---------- Referrals + Leads CRM ---------- */
+
+export type LeadStatus =
+  | "NEW"
+  | "CONTACTED"
+  | "QUALIFIED"
+  | "BOOKED"
+  | "WON"
+  | "LOST";
+
+export const LEAD_STATUSES: LeadStatus[] = [
+  "NEW",
+  "CONTACTED",
+  "QUALIFIED",
+  "BOOKED",
+  "WON",
+  "LOST",
+];
+
+export const LEAD_STATUS_LABEL: Record<LeadStatus, string> = {
+  NEW: "Nova",
+  CONTACTED: "Contactada",
+  QUALIFIED: "Qualificada",
+  BOOKED: "Agendada",
+  WON: "Ganha",
+  LOST: "Perdida",
+};
+
+export interface ReferralRow {
+  id: string;
+  name: string;
+  company: string;
+  email: string;
+  code: string;
+  active: boolean;
+  notes: string;
+  createdAt: Date;
+  leadCount: number;
+  lastLeadAt: Date | null;
+}
+
+export interface ReferralStats {
+  totalLeads: number;
+  leadsThisMonth: number;
+  lastLeadAt: Date | null;
+  visitCount: number;
+  byStatus: Record<LeadStatus, number>;
+}
+
+export interface LeadRow {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  company: string;
+  project: string;
+  message: string;
+  dates: string;
+  source: string;
+  status: LeadStatus;
+  createdAt: Date;
+  updatedAt: Date;
+  utmSource: string | null;
+  utmMedium: string | null;
+  utmCampaign: string | null;
+  landingPath: string | null;
+  referral: { id: string; name: string; company: string; code: string } | null;
+}
+
+export interface DashboardStats {
+  totalLeads: number;
+  leadsThisMonth: number;
+  totalReferrals: number;
+  activeReferrals: number;
+  byStatus: Record<LeadStatus, number>;
+  last14Days: { date: string; count: number }[];
+  topReferrals: { id: string; name: string; company: string; leadCount: number }[];
+}
