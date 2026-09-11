@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import type { Contact } from "@/lib/types";
 import { telHref } from "@/lib/contacts";
@@ -64,9 +65,17 @@ export function Header({
       <nav className="mx-auto flex h-full max-w-[1400px] items-center justify-between gap-4 px-4 sm:px-6">
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="display shrink-0 text-lg tracking-tight text-[var(--agency-fg)] sm:text-xl"
+          className="shrink-0"
+          aria-label={`${siteName ?? "ABRC"} — voltar ao topo`}
         >
-          {siteName ?? "◆"}
+          <Image
+            src="/media/brand/logo-abrc-mark.png"
+            alt={siteName ?? "ABRC"}
+            width={378}
+            height={100}
+            priority
+            className="h-6 w-auto sm:h-7"
+          />
         </button>
 
         <ul className="hidden items-center gap-1 md:flex">
