@@ -1,12 +1,24 @@
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 import { ImageResponse } from "next/og";
 import { getContent } from "@/lib/content";
 
-export const alt = "Agência de artistas";
+export const alt = "ABRC — Agência de artistas";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
+async function logoDataUri(): Promise<string> {
+  const file = await readFile(
+    path.join(process.cwd(), "public/media/brand/logo-abrc.png"),
+  );
+  return `data:image/png;base64,${file.toString("base64")}`;
+}
+
 export default async function OgImage() {
-  const { settings, projects } = await getContent();
+  const [{ settings, projects }, logo] = await Promise.all([
+    getContent(),
+    logoDataUri(),
+  ]);
   const roster = projects
     .filter((p) => !p.comingSoon)
     .map((p) => p.name);
@@ -26,9 +38,8 @@ export default async function OgImage() {
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ fontSize: 34, letterSpacing: 2, opacity: 0.7 }}>
-          {settings.siteName ?? "AGÊNCIA DE ARTISTAS"}
-        </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={logo} width={340} height={113} alt="ABRC" />
         <div style={{ display: "flex", flexWrap: "wrap", gap: 16, fontSize: 76, fontWeight: 800, lineHeight: 1 }}>
           {roster.map((name) => (
             <span key={name} style={{ textTransform: "uppercase" }}>
