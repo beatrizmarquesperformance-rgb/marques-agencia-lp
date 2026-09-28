@@ -55,18 +55,50 @@ export function RowsEditor({
       return copy;
     });
 
+  const rowLabel = addLabel.charAt(0).toUpperCase() + addLabel.slice(1);
+
   return (
     <form action={action} noValidate className="space-y-3">
       {saved && <p className="text-sm text-green-400">Guardado.</p>}
       {rows.map((row, i) => (
-        <div
-          key={i}
-          className="flex flex-wrap items-end gap-2 border border-neutral-800 bg-neutral-900/50 p-2"
-        >
+        <div key={i} className="border border-neutral-800 bg-neutral-900/50 p-3">
+          <div className="mb-3 flex items-center justify-between border-b border-neutral-800 pb-2">
+            <span className="text-xs font-semibold uppercase tracking-wide text-neutral-400">
+              {rowLabel} {i + 1}
+            </span>
+            <div className="flex items-center gap-3 text-xs">
+              <button
+                type="button"
+                onClick={() => move(i, -1)}
+                title="Mover para cima"
+                className="text-neutral-500 hover:text-white disabled:opacity-30"
+                disabled={i === 0}
+              >
+                ↑ subir
+              </button>
+              <button
+                type="button"
+                onClick={() => move(i, 1)}
+                title="Mover para baixo"
+                className="text-neutral-500 hover:text-white disabled:opacity-30"
+                disabled={i === rows.length - 1}
+              >
+                ↓ descer
+              </button>
+              <button
+                type="button"
+                onClick={() => setRows((r) => r.filter((_, idx) => idx !== i))}
+                className="text-red-400 hover:text-red-300"
+              >
+                ✕ remover
+              </button>
+            </div>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
           {fields.map((f) => (
             <label
               key={f.name}
-              className={`flex flex-col text-xs text-neutral-400 ${f.wide ? "min-w-[16rem] flex-1" : "w-40"}`}
+              className={`flex flex-col text-xs text-neutral-400 ${f.wide ? "sm:col-span-2" : ""}`}
             >
               {f.label}
               {f.type === "select" ? (
@@ -113,20 +145,6 @@ export function RowsEditor({
               )}
             </label>
           ))}
-          <div className="flex gap-1">
-            <button type="button" onClick={() => move(i, -1)} className="px-2 text-neutral-500 hover:text-white">
-              ↑
-            </button>
-            <button type="button" onClick={() => move(i, 1)} className="px-2 text-neutral-500 hover:text-white">
-              ↓
-            </button>
-            <button
-              type="button"
-              onClick={() => setRows((r) => r.filter((_, idx) => idx !== i))}
-              className="px-2 text-red-400 hover:text-red-300"
-            >
-              ✕
-            </button>
           </div>
         </div>
       ))}

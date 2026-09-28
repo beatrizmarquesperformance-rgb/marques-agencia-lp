@@ -193,11 +193,14 @@ export default async function ProjectEditPage({
       </section>
 
       <section>
-        <h2 className="text-lg font-medium">Vídeos</h2>
+        <h2 className="text-lg font-medium">Vídeos do projeto (aftermovies)</h2>
         <p className="mb-2 text-xs text-neutral-500">
-          Fonte <strong>youtube</strong> / <strong>vimeo</strong> → mete só o ID do vídeo.
-          Fonte <strong>mp4</strong> → carrega um ficheiro (máx. 4&nbsp;MB) ou cola um URL.
-          Para vídeos MP4 maiores, usa antes um link do YouTube/Vimeo.
+          Aparecem na coluna da direita, ao lado do texto do projeto. Para
+          cada vídeo: escolhe de onde vem, dá-lhe uma imagem de capa e uma
+          legenda opcional. Fonte <strong>youtube</strong> / <strong>vimeo</strong> → mete só o
+          ID do vídeo (não o URL todo). Fonte <strong>mp4</strong> → carrega um
+          ficheiro (máx. 4&nbsp;MB) ou cola um URL direto; para vídeos maiores,
+          usa antes um link do YouTube/Vimeo.
         </p>
         <RowsEditor
           action={replaceVideos.bind(null, slug)}
@@ -212,20 +215,29 @@ export default async function ProjectEditPage({
           fields={[
             {
               name: "provider",
-              label: "Fonte",
+              label: "De onde vem o vídeo",
               type: "select",
               options: ["mp4", "mux", "youtube", "vimeo", "cloudflare"],
             },
-            { name: "src", label: "URL / ID", type: "video", wide: true },
+            {
+              name: "src",
+              label: "Vídeo (URL, ID do YouTube/Vimeo, ou carrega um MP4)",
+              type: "video",
+              wide: true,
+            },
             {
               name: "poster",
-              label: "Poster",
+              label: "Imagem de capa (mostrada antes do vídeo tocar)",
               type: "image",
               wide: true,
               focusField: "posterFocus",
               focusAspect: "9 / 16",
             },
-            { name: "title", label: "Título", wide: true },
+            {
+              name: "title",
+              label: "Legenda (opcional, aparece por baixo do vídeo)",
+              wide: true,
+            },
           ]}
         />
       </section>
