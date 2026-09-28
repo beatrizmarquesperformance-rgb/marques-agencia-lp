@@ -38,12 +38,14 @@ export async function saveProject(slug: string, fd: FormData) {
       description: String(fd.get("description") ?? ""),
       heroAlt: str(fd, "heroAlt"),
       heroImage: str(fd, "heroImage") || null,
+      heroImageFocus: str(fd, "heroImageFocus") || "0.5,0.5,1",
       logoImage: str(fd, "logoImage") || null,
       heroCutout: str(fd, "heroCutout") || null,
       heroCutoutSide: str(fd, "heroCutoutSide") === "right" ? "right" : "left",
       promoProvider: str(fd, "promoProvider") || "mp4",
       promoSrc: str(fd, "promoSrc") || null,
       promoPoster: str(fd, "promoPoster") || null,
+      promoPosterFocus: str(fd, "promoPosterFocus") || "0.5,0.5,1",
       enabled: bool(fd, "enabled"),
       comingSoon: bool(fd, "comingSoon"),
       order: int(fd, "order"),
@@ -80,10 +82,16 @@ export async function replacePhotos(slug: string, fd: FormData) {
   const db = await guard();
   const project = await db.project.findUniqueOrThrow({ where: { slug } });
   const images = fd.getAll("image").map(String);
+  const focuses = fd.getAll("focus").map(String);
   const alts = fd.getAll("alt").map(String);
   await db.galleryPhoto.deleteMany({ where: { projectId: project.id } });
   const rows = images
-    .map((image, i) => ({ image: image.trim(), alt: (alts[i] ?? "").trim(), order: i }))
+    .map((image, i) => ({
+      image: image.trim(),
+      focus: (focuses[i] ?? "").trim() || "0.5,0.5,1",
+      alt: (alts[i] ?? "").trim(),
+      order: i,
+    }))
     .filter((r) => r.image.length > 3);
   if (rows.length) {
     await db.galleryPhoto.createMany({
@@ -100,6 +108,7 @@ export async function replaceVideos(slug: string, fd: FormData) {
   const providers = fd.getAll("provider").map(String);
   const srcs = fd.getAll("src").map(String);
   const posters = fd.getAll("poster").map(String);
+  const posterFocuses = fd.getAll("posterFocus").map(String);
   const titles = fd.getAll("title").map(String);
   await db.video.deleteMany({ where: { projectId: project.id } });
   const rows = srcs
@@ -107,6 +116,7 @@ export async function replaceVideos(slug: string, fd: FormData) {
       src: src.trim(),
       provider: providers[i] ?? "mp4",
       poster: (posters[i] ?? "").trim() || null,
+      posterFocus: (posterFocuses[i] ?? "").trim() || "0.5,0.5,1",
       title: (titles[i] ?? "").trim(),
       order: i,
     }))
@@ -134,6 +144,7 @@ export async function saveSettings(fd: FormData) {
     ["heroVideoProvider", str(fd, "heroVideoProvider") || "mp4"],
     ["heroVideoSrc", str(fd, "heroVideoSrc")],
     ["heroVideoPoster", str(fd, "heroVideoPoster")],
+    ["heroVideoPosterFocus", str(fd, "heroVideoPosterFocus") || "0.5,0.5,1"],
     ["heroHeadline", str(fd, "heroHeadline")],
     ["heroSubhead", str(fd, "heroSubhead")],
   ];
@@ -151,6 +162,7 @@ export async function saveHeroVideo(fd: FormData) {
     ["heroVideoProvider", str(fd, "heroVideoProvider") || "mp4"],
     ["heroVideoSrc", str(fd, "heroVideoSrc")],
     ["heroVideoPoster", str(fd, "heroVideoPoster")],
+    ["heroVideoPosterFocus", str(fd, "heroVideoPosterFocus") || "0.5,0.5,1"],
     ["heroHeadline", str(fd, "heroHeadline")],
     ["heroSubhead", str(fd, "heroSubhead")],
   ];
@@ -170,6 +182,7 @@ export async function savePromoVideo(slug: string, fd: FormData) {
       promoProvider: str(fd, "promoProvider") || "mp4",
       promoSrc: str(fd, "promoSrc") || null,
       promoPoster: str(fd, "promoPoster") || null,
+      promoPosterFocus: str(fd, "promoPosterFocus") || "0.5,0.5,1",
     },
   });
   bust();

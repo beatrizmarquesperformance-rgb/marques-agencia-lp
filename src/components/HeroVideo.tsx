@@ -15,6 +15,7 @@ export function HeroVideo({ settings }: { settings: SiteSettings }) {
           provider={settings.heroVideoProvider}
           src={settings.heroVideoSrc}
           poster={settings.heroVideoPoster}
+          posterFocus={settings.heroVideoPosterFocus}
           mode="background"
           eager
           posterPriority

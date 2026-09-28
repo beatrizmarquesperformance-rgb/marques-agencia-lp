@@ -40,7 +40,7 @@ export async function GET(
   const utmMedium = url.searchParams.get("utm_medium");
   const utmCampaign = url.searchParams.get("utm_campaign");
 
-  const dest = new URL(to, url.origin);
+  const dest = new URL(to, process.env.NEXT_PUBLIC_SITE_URL || url.origin);
   for (const [k, v] of Object.entries({
     utm_source: utmSource,
     utm_medium: utmMedium,

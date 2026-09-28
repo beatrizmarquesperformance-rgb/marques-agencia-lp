@@ -39,6 +39,9 @@ export default async function VideosPage({
             name="heroVideoPoster"
             label="Poster (imagem mostrada enquanto o vídeo carrega)"
             defaultValue={s.heroVideoPoster}
+            focusName="heroVideoPosterFocus"
+            focusDefaultValue={s.heroVideoPosterFocus}
+            focusAspect="16 / 9"
           />
           <Save />
         </form>
@@ -75,6 +78,9 @@ export default async function VideosPage({
                 name="promoPoster"
                 label="Poster do vídeo vertical"
                 defaultValue={p.promoVideo.poster ?? ""}
+                focusName="promoPosterFocus"
+                focusDefaultValue={p.promoVideo.posterFocus}
+                focusAspect="9 / 16"
               />
               <Save />
             </form>

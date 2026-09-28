@@ -11,6 +11,7 @@ npm-debug.log*
 next-env.d.ts
 *.tsbuildinfo
 /prisma/dev.db
+/media-store
 /assets-src
 
 # Local Netlify folder

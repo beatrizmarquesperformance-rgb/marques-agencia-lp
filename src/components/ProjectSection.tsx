@@ -3,6 +3,7 @@ import type { Project, Contact } from "@/lib/types";
 import { themeVars } from "@/lib/theme";
 import { telHref } from "@/lib/contacts";
 import type { CSSProperties } from "react";
+import { focusStyle } from "@/lib/focus";
 import { TornDivider } from "./TornDivider";
 import { SocialLinks } from "./SocialLinks";
 import { Gallery } from "./Gallery";
@@ -137,7 +138,8 @@ export function ProjectSection({
               fill
               priority={priority}
               sizes="100vw"
-              className="object-cover object-[50%_20%]"
+              className="object-cover"
+              style={focusStyle(project.heroImageFocus)}
             />
           ) : (
             <div

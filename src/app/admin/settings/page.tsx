@@ -57,6 +57,9 @@ export default async function SettingsPage({
             name="heroVideoPoster"
             label="Poster do vídeo (mostrado enquanto carrega)"
             defaultValue={s.heroVideoPoster}
+            focusName="heroVideoPosterFocus"
+            focusDefaultValue={s.heroVideoPosterFocus}
+            focusAspect="16 / 9"
           />
           <Row name="heroHeadline" label="Título do hero" defaultValue={s.heroHeadline} />
           <Row name="heroSubhead" label="Subtítulo do hero" defaultValue={s.heroSubhead} />

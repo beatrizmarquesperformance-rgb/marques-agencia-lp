@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { uploadImage, uploadVideo } from "@/lib/upload-client";
 import { useUploadGuard } from "./UploadGuard";
+import { FocusEditor } from "./FocusEditor";
 
 export interface FieldSpec {
   name: string;
@@ -11,6 +12,11 @@ export interface FieldSpec {
   options?: string[];
   placeholder?: string;
   wide?: boolean;
+  /** For type "image": name of the sibling field in the same row that holds
+   * the "x,y,zoom" focal point — shows a drag/zoom editor once an image is set. */
+  focusField?: string;
+  /** Aspect ratio (CSS value, e.g. "3 / 4") the focus editor preview should use. */
+  focusAspect?: string;
 }
 
 type Row = Record<string, string>;
@@ -79,6 +85,9 @@ export function RowsEditor({
                   name={f.name}
                   value={row[f.name] ?? ""}
                   onChange={(v) => update(i, f.name, v)}
+                  focusName={f.focusField}
+                  focusDefaultValue={f.focusField ? row[f.focusField] : undefined}
+                  focusAspect={f.focusAspect}
                 />
               ) : (
                 <input
@@ -135,11 +144,17 @@ function MediaInput({
   name,
   value,
   onChange,
+  focusName,
+  focusDefaultValue,
+  focusAspect,
 }: {
   kind: "image" | "video";
   name: string;
   value: string;
   onChange: (v: string) => void;
+  focusName?: string;
+  focusDefaultValue?: string;
+  focusAspect?: string;
 }) {
   const ref = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
@@ -158,29 +173,41 @@ function MediaInput({
     }
   }
 
+  const showsFocusEditor = kind === "image" && focusName && value;
+
   return (
-    <span className="mt-0.5 flex items-center gap-2">
-      {value && kind === "image" ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={value} alt="" className="h-9 w-9 border border-neutral-700 object-cover" />
-      ) : null}
-      <input
-        name={name}
-        type="text"
-        inputMode="url"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={kind === "video" ? "URL/ID ou carregar MP4 →" : "URL ou carregar →"}
-        className="w-full bg-neutral-950 px-2 py-1 text-sm text-white"
-      />
-      <button
-        type="button"
-        onClick={() => ref.current?.click()}
-        disabled={busy}
-        className="shrink-0 border border-neutral-700 px-2 py-1 text-white hover:bg-neutral-800 disabled:opacity-50"
-      >
-        {busy ? "…" : "⬆︎"}
-      </button>
+    <span className="mt-0.5 flex flex-col gap-2">
+      <span className="flex items-center gap-2">
+        {value && kind === "image" && !showsFocusEditor ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={value} alt="" className="h-9 w-9 border border-neutral-700 object-cover" />
+        ) : null}
+        <input
+          name={name}
+          type="text"
+          inputMode="url"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={kind === "video" ? "URL/ID ou carregar MP4 →" : "URL ou carregar →"}
+          className="w-full bg-neutral-950 px-2 py-1 text-sm text-white"
+        />
+        <button
+          type="button"
+          onClick={() => ref.current?.click()}
+          disabled={busy}
+          className="shrink-0 border border-neutral-700 px-2 py-1 text-white hover:bg-neutral-800 disabled:opacity-50"
+        >
+          {busy ? "…" : "⬆︎"}
+        </button>
+      </span>
+      {showsFocusEditor && (
+        <FocusEditor
+          name={focusName}
+          imageUrl={value}
+          defaultValue={focusDefaultValue}
+          aspect={focusAspect}
+        />
+      )}
       <input
         ref={ref}
         type="file"

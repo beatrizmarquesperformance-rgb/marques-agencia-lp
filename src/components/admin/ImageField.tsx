@@ -3,11 +3,16 @@
 import { useRef, useState } from "react";
 import { uploadImage, uploadVideo } from "@/lib/upload-client";
 import { useUploadGuard } from "./UploadGuard";
+import { FocusEditor } from "./FocusEditor";
 
 /**
  * Media picker for admin forms (single field, not a repeater row).
- * Upload a file → stored in Netlify Blobs → the URL is submitted via a hidden
+ * Upload a file → stored on the server → the URL is submitted via a hidden
  * input named `name`. Pasting a URL / ID also works.
+ *
+ * Pass `focusName` (+ optional `focusDefaultValue`/`focusAspect`) to also show
+ * a drag/zoom position editor next to the thumbnail — used for images shown
+ * cropped into a fixed box on the public site (hero, posters).
  */
 export function ImageField({
   name,
@@ -15,12 +20,18 @@ export function ImageField({
   defaultValue = "",
   hint,
   kind = "image",
+  focusName,
+  focusDefaultValue,
+  focusAspect,
 }: {
   name: string;
   label: string;
   defaultValue?: string;
   hint?: string;
   kind?: "image" | "video";
+  focusName?: string;
+  focusDefaultValue?: string;
+  focusAspect?: string;
 }) {
   const [value, setValue] = useState(defaultValue);
   const [busy, setBusy] = useState(false);
@@ -94,6 +105,14 @@ export function ImageField({
             className="w-72 max-w-full bg-neutral-950 px-2 py-1 text-sm text-white"
           />
         </div>
+        {!isVideo && focusName && value && (
+          <FocusEditor
+            name={focusName}
+            imageUrl={value}
+            defaultValue={focusDefaultValue}
+            aspect={focusAspect}
+          />
+        )}
       </div>
       {hint && <span className="opacity-60">{hint}</span>}
       {error && <span className="text-red-400">{error}</span>}

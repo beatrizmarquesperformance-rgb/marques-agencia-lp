@@ -49,7 +49,14 @@ export default async function ProjectEditPage({
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
-          <ImageField name="heroImage" label="Imagem hero" defaultValue={p.heroImage ?? ""} />
+          <ImageField
+            name="heroImage"
+            label="Imagem hero"
+            defaultValue={p.heroImage ?? ""}
+            focusName="heroImageFocus"
+            focusDefaultValue={p.heroImageFocus}
+            focusAspect="16 / 9"
+          />
           <ImageField name="logoImage" label="Logótipo (PNG/SVG)" defaultValue={p.logoImage ?? ""} />
           <ImageField
             name="heroCutout"
@@ -93,6 +100,9 @@ export default async function ProjectEditPage({
             name="promoPoster"
             label="Vídeo vertical — poster (9:16)"
             defaultValue={p.promoVideo.poster ?? ""}
+            focusName="promoPosterFocus"
+            focusDefaultValue={p.promoVideo.posterFocus}
+            focusAspect="9 / 16"
           />
         </div>
 
@@ -167,9 +177,16 @@ export default async function ProjectEditPage({
           addLabel="foto"
           initial={p.photos
             .filter((x) => x.image)
-            .map((x) => ({ image: x.image ?? "", alt: x.alt }))}
+            .map((x) => ({ image: x.image ?? "", focus: x.focus ?? "", alt: x.alt }))}
           fields={[
-            { name: "image", label: "Imagem", type: "image", wide: true },
+            {
+              name: "image",
+              label: "Imagem",
+              type: "image",
+              wide: true,
+              focusField: "focus",
+              focusAspect: "3 / 4",
+            },
             { name: "alt", label: "Alt (acessibilidade)", wide: true },
           ]}
         />
@@ -189,6 +206,7 @@ export default async function ProjectEditPage({
             provider: v.provider,
             src: v.src,
             poster: v.poster ?? "",
+            posterFocus: v.posterFocus ?? "",
             title: v.title,
           }))}
           fields={[
@@ -199,7 +217,14 @@ export default async function ProjectEditPage({
               options: ["mp4", "mux", "youtube", "vimeo", "cloudflare"],
             },
             { name: "src", label: "URL / ID", type: "video", wide: true },
-            { name: "poster", label: "Poster", type: "image", wide: true },
+            {
+              name: "poster",
+              label: "Poster",
+              type: "image",
+              wide: true,
+              focusField: "posterFocus",
+              focusAspect: "9 / 16",
+            },
             { name: "title", label: "Título", wide: true },
           ]}
         />

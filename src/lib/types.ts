@@ -12,6 +12,7 @@ export interface Social {
 
 export interface GalleryPhoto {
   image: string | null; // null => themed placeholder tile
+  focus?: string; // "x,y,zoom" — defaults to centered/no-zoom when absent
   alt: string;
 }
 
@@ -21,6 +22,7 @@ export interface Video {
   provider: VideoProvider;
   src: string;
   poster: string | null;
+  posterFocus?: string; // "x,y,zoom"
   title: string;
 }
 
@@ -28,6 +30,7 @@ export interface PromoVideo {
   provider: VideoProvider;
   src: string | null;
   poster: string | null;
+  posterFocus?: string; // "x,y,zoom"
 }
 
 export interface ProjectTheme {
@@ -50,6 +53,7 @@ export interface Project {
   /** paragraphs separated by a blank line */
   description: string;
   heroImage: string | null;
+  heroImageFocus?: string; // "x,y,zoom"
   heroAlt: string;
   logoImage: string | null;
   heroCutout: string | null;
@@ -84,6 +88,7 @@ export interface SiteSettings {
   heroVideoProvider: VideoProvider;
   heroVideoSrc: string | null;
   heroVideoPoster: string | null;
+  heroVideoPosterFocus?: string; // "x,y,zoom"
   heroHeadline: string;
   heroSubhead: string;
 }

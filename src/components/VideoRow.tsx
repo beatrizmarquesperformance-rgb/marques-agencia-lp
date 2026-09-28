@@ -20,6 +20,7 @@ export function VideoRow({ videos }: { videos: Video[] }) {
             provider={v.provider}
             src={v.src}
             poster={v.poster}
+            posterFocus={v.posterFocus}
             mode="background"
             label={v.title}
             posterSizes="(max-width: 768px) 90vw, 380px"

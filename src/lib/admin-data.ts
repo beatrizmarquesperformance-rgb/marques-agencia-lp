@@ -23,6 +23,7 @@ export async function adminProjects(): Promise<Project[]> {
     tagline: p.tagline,
     description: p.description,
     heroImage: p.heroImage,
+    heroImageFocus: p.heroImageFocus,
     heroAlt: p.heroAlt,
     logoImage: p.logoImage,
     heroCutout: p.heroCutout,
@@ -31,6 +32,7 @@ export async function adminProjects(): Promise<Project[]> {
       provider: (p.promoProvider as never) ?? "mp4",
       src: p.promoSrc,
       poster: p.promoPoster,
+      posterFocus: p.promoPosterFocus,
     },
     theme: {
       bg: p.bg,
@@ -40,11 +42,12 @@ export async function adminProjects(): Promise<Project[]> {
       accent: p.accent,
     },
     socials: p.socials.map((s) => ({ platform: s.platform as never, url: s.url })),
-    photos: p.photos.map((x) => ({ image: x.image, alt: x.alt })),
+    photos: p.photos.map((x) => ({ image: x.image, focus: x.focus, alt: x.alt })),
     videos: p.videos.map((v) => ({
       provider: v.provider as never,
       src: v.src,
       poster: v.poster,
+      posterFocus: v.posterFocus,
       title: v.title,
     })),
   }));
@@ -73,6 +76,7 @@ export async function adminSettings() {
     heroVideoProvider: map.heroVideoProvider ?? s.heroVideoProvider,
     heroVideoSrc: map.heroVideoSrc ?? "",
     heroVideoPoster: map.heroVideoPoster ?? "",
+    heroVideoPosterFocus: map.heroVideoPosterFocus ?? "0.5,0.5,1",
     heroHeadline: map.heroHeadline ?? s.heroHeadline,
     heroSubhead: map.heroSubhead ?? s.heroSubhead,
   };

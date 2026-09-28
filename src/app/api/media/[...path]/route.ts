@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
-import { getStore } from "@netlify/blobs";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
+
+const MEDIA_DIR = path.join(process.cwd(), "media-store");
 
 const TYPE_BY_EXT: Record<string, string> = {
   jpg: "image/jpeg",
@@ -13,24 +16,32 @@ const TYPE_BY_EXT: Record<string, string> = {
   mov: "video/quicktime",
 };
 
-/** Serves images uploaded via the admin (stored in Netlify Blobs). */
+/** Serves images/videos uploaded via the admin (stored on local disk). */
 export async function GET(
   _req: Request,
   { params }: { params: Promise<{ path: string[] }> },
 ) {
-  const { path } = await params;
-  const key = path.join("/");
+  const { path: segments } = await params;
+  const key = segments.join("/");
+
+  // reject any attempt to escape media-store (defence in depth — segments
+  // come from the URL path so ".." can't survive Next's own routing, but
+  // an explicit check costs nothing).
+  const dest = path.join(MEDIA_DIR, key);
+  if (!dest.startsWith(MEDIA_DIR + path.sep)) {
+    return new NextResponse("Not found", { status: 404 });
+  }
 
   try {
-    const store = getStore({ name: "media", consistency: "strong" });
-    const res = await store.getWithMetadata(key, { type: "arrayBuffer" });
-    if (!res) return new NextResponse("Not found", { status: 404 });
+    const [data, storedType] = await Promise.all([
+      readFile(dest),
+      readFile(`${dest}.type`, "utf8").catch(() => null),
+    ]);
 
     const ext = key.split(".").pop()?.toLowerCase() ?? "";
-    const contentType =
-      (res.metadata?.contentType as string) || TYPE_BY_EXT[ext] || "application/octet-stream";
+    const contentType = storedType || TYPE_BY_EXT[ext] || "application/octet-stream";
 
-    return new NextResponse(res.data, {
+    return new NextResponse(new Uint8Array(data), {
       headers: {
         "Content-Type": contentType,
         "Cache-Control": "public, max-age=31536000, immutable",

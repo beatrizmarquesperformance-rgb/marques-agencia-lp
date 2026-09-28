@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { GalleryPhoto, ProjectTheme } from "@/lib/types";
 import { placeholderStyle } from "@/lib/theme";
+import { focusStyle } from "@/lib/focus";
 import { RevealOnScroll } from "./RevealOnScroll";
 
 /** Loose grid of tilted, white-bordered snapshots (reference PDF pages 2 & 6). */
@@ -31,7 +32,8 @@ export function Gallery({
                 alt={p.alt}
                 fill
                 sizes="(max-width: 768px) 50vw, 33vw"
-                className="object-cover object-top"
+                className="object-cover"
+                style={focusStyle(p.focus)}
                 loading="lazy"
               />
             ) : (

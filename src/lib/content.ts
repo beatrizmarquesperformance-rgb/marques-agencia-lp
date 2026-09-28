@@ -35,6 +35,7 @@ async function loadFromDb(): Promise<SiteContent | null> {
     tagline: p.tagline,
     description: p.description,
     heroImage: p.heroImage,
+    heroImageFocus: p.heroImageFocus,
     heroAlt: p.heroAlt,
     logoImage: p.logoImage,
     heroCutout: p.heroCutout,
@@ -43,6 +44,7 @@ async function loadFromDb(): Promise<SiteContent | null> {
       provider: (p.promoProvider as Video["provider"]) ?? "mp4",
       src: p.promoSrc,
       poster: p.promoPoster,
+      posterFocus: p.promoPosterFocus,
     },
     theme: {
       bg: p.bg,
@@ -55,11 +57,12 @@ async function loadFromDb(): Promise<SiteContent | null> {
       platform: s.platform as Social["platform"],
       url: s.url,
     })),
-    photos: p.photos.map((ph): GalleryPhoto => ({ image: ph.image, alt: ph.alt })),
+    photos: p.photos.map((ph): GalleryPhoto => ({ image: ph.image, focus: ph.focus, alt: ph.alt })),
     videos: p.videos.map((v): Video => ({
       provider: v.provider as Video["provider"],
       src: v.src,
       poster: v.poster,
+      posterFocus: v.posterFocus,
       title: v.title,
     })),
   }));
@@ -78,6 +81,7 @@ async function loadFromDb(): Promise<SiteContent | null> {
       heroVideoProvider: (settings.heroVideoProvider as never) ?? sd.heroVideoProvider,
       heroVideoSrc: settings.heroVideoSrc ?? null,
       heroVideoPoster: settings.heroVideoPoster ?? null,
+      heroVideoPosterFocus: settings.heroVideoPosterFocus ?? "0.5,0.5,1",
       heroHeadline: settings.heroHeadline ?? sd.heroHeadline,
       heroSubhead: settings.heroSubhead ?? sd.heroSubhead,
     },

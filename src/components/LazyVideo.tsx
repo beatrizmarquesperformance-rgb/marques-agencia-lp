@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import type { VideoProvider } from "@/lib/types";
 import { embedSrc, nativeSrc, usesIframe } from "@/lib/video";
+import { focusStyle } from "@/lib/focus";
 
 type Mode = "background" | "click";
 
@@ -19,6 +20,7 @@ export function LazyVideo({
   provider,
   src,
   poster,
+  posterFocus,
   mode = "background",
   eager = false,
   className = "",
@@ -30,6 +32,7 @@ export function LazyVideo({
   provider: VideoProvider;
   src: string | null;
   poster: string | null;
+  posterFocus?: string;
   mode?: Mode;
   eager?: boolean;
   className?: string;
@@ -91,6 +94,7 @@ export function LazyVideo({
               fill
               sizes={posterSizes}
               className={objectFit}
+              style={fit === "cover" ? focusStyle(posterFocus) : undefined}
               priority={posterPriority}
             />
           ) : (
@@ -133,6 +137,7 @@ export function LazyVideo({
           }}
           onWaiting={() => setLoading(true)}
           className={`absolute inset-0 h-full w-full ${objectFit}`}
+          style={fit === "cover" ? focusStyle(posterFocus) : undefined}
         />
       )}
 

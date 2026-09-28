@@ -1,6 +1,9 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { getStore } from "@netlify/blobs";
+import { mkdir, writeFile } from "node:fs/promises";
+import path from "node:path";
 import { isAuthed } from "@/lib/auth";
+
+const MEDIA_DIR = path.join(process.cwd(), "media-store");
 
 export const runtime = "nodejs";
 
@@ -85,12 +88,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   const key = `uploads/${stamp()}-${crypto.randomUUID().slice(0, 8)}.${ext}`;
 
   try {
-    const store = getStore({ name: "media", consistency: "strong" });
-    await store.set(key, data, { metadata: { contentType } });
+    const dest = path.join(MEDIA_DIR, key);
+    await mkdir(path.dirname(dest), { recursive: true });
+    await writeFile(dest, Buffer.from(data));
+    // sidecar content-type, read back by /api/media
+    await writeFile(`${dest}.type`, contentType, "utf8");
   } catch (err) {
-    console.error("[upload] blob store error:", err);
+    console.error("[upload] disk store error:", err);
     return NextResponse.json(
-      { error: "Armazenamento indisponível. Em local, cola um URL; em produção verifica os Netlify Blobs." },
+      { error: "Armazenamento indisponível no servidor." },
       { status: 503 },
     );
   }

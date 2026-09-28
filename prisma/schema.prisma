@@ -19,16 +19,18 @@ model Project {
   description String  @default("") // paragraph copy, \n\n between paragraphs
 
   // hero
-  heroImage      String? // URL (Blob). null => themed placeholder
-  heroAlt        String  @default("")
-  logoImage      String? // project lockup PNG/SVG URL
-  heroCutout     String? // cut-out PNG that breaks across the torn edge
-  heroCutoutSide String  @default("left") // left | right
+  heroImage       String? // URL (Blob). null => themed placeholder
+  heroImageFocus  String  @default("0.5,0.2,1") // "x,y,zoom" — matches the site's original 50%/20% crop
+  heroAlt         String  @default("")
+  logoImage       String? // project lockup PNG/SVG URL
+  heroCutout      String? // cut-out PNG that breaks across the torn edge
+  heroCutoutSide  String  @default("left") // left | right
 
   // vertical "category" video shown in the rail under the page hero
-  promoProvider String  @default("mp4") // mp4 | mux | youtube | vimeo | cloudflare
-  promoSrc      String?
-  promoPoster   String?
+  promoProvider     String  @default("mp4") // mp4 | mux | youtube | vimeo | cloudflare
+  promoSrc          String?
+  promoPoster       String?
+  promoPosterFocus  String  @default("0.5,0.5,1")
 
   // theme tokens
   bg        String @default("#0d0d0d")
@@ -59,19 +61,21 @@ model GalleryPhoto {
   projectId String
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
   image     String // URL
+  focus     String  @default("0.5,0,1") // "x,y,zoom" — matches the site's original top-aligned crop
   alt       String  @default("")
   order     Int     @default(0)
 }
 
 model Video {
-  id        String  @id @default(cuid())
-  projectId String
-  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  provider  String  @default("mp4") // mp4 | mux | youtube | vimeo | cloudflare
-  src       String // URL or playback id
-  poster    String? // poster image URL
-  title     String  @default("")
-  order     Int     @default(0)
+  id           String  @id @default(cuid())
+  projectId    String
+  project      Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  provider     String  @default("mp4") // mp4 | mux | youtube | vimeo | cloudflare
+  src          String // URL or playback id
+  poster       String? // poster image URL
+  posterFocus  String  @default("0.5,0.5,1")
+  title        String  @default("")
+  order        Int     @default(0)
 }
 
 model PlayedAt {
