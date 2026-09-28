@@ -66,7 +66,6 @@ async function main() {
     ["contactPhone2", s.contactPhone2],
     ["contactName2", s.contactName2],
     ["contactEmail", s.contactEmail],
-    ["bandsintownArtist", s.bandsintownArtist],
     ["heroVideoProvider", s.heroVideoProvider],
     ["heroVideoSrc", s.heroVideoSrc],
     ["heroVideoPoster", s.heroVideoPoster],
