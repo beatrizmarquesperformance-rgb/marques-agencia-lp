@@ -25,11 +25,6 @@ export default async function SettingsPage({
           <Row name="contactPhone2" label="Telefone de booking (2) — opcional" defaultValue={s.contactPhone2} />
           <Row name="contactName2" label="Nome de contacto (2) — opcional" defaultValue={s.contactName2} />
           <Row name="contactEmail" label="E-mail de contacto (opcional)" defaultValue={s.contactEmail} />
-          <Row
-            name="bandsintownArtist"
-            label='Artista Bandsintown (nome exato ou "id_123")'
-            defaultValue={s.bandsintownArtist}
-          />
         </section>
 
         <section className="space-y-4">
@@ -67,11 +62,6 @@ export default async function SettingsPage({
 
         <button className="bg-white px-4 py-1.5 text-sm font-medium text-black">Guardar</button>
       </form>
-
-      <p className="mt-6 text-xs text-neutral-500">
-        O <code>app_id</code> do Bandsintown é um segredo de servidor (variável{" "}
-        <code>BANDSINTOWN_APP_ID</code>), não editável aqui.
-      </p>
     </div>
   );
 }

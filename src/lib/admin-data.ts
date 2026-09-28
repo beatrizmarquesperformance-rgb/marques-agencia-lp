@@ -72,7 +72,6 @@ export async function adminSettings() {
     contactPhone2: map.contactPhone2 ?? s.contactPhone2 ?? "",
     contactName2: map.contactName2 ?? s.contactName2 ?? "",
     contactEmail: map.contactEmail ?? s.contactEmail ?? "",
-    bandsintownArtist: map.bandsintownArtist ?? s.bandsintownArtist ?? "",
     heroVideoProvider: map.heroVideoProvider ?? s.heroVideoProvider,
     heroVideoSrc: map.heroVideoSrc ?? "",
     heroVideoPoster: map.heroVideoPoster ?? "",
@@ -90,4 +89,26 @@ export async function adminLeads() {
 export async function adminPlayedAt() {
   if (!prisma) return seedContent.playedAt.map((p) => ({ ...p }));
   return prisma.playedAt.findMany({ orderBy: { order: "asc" } });
+}
+
+/** "YYYY-MM-DDTHH:mm" in server-local time, for an <input type="datetime-local">. */
+function toDatetimeLocal(d: Date): string {
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+export async function adminGigs() {
+  if (!prisma) return [];
+  const rows = await prisma.gig.findMany({
+    orderBy: { date: "asc" },
+    include: { project: { select: { slug: true } } },
+  });
+  return rows.map((g) => ({
+    projectSlug: g.project.slug,
+    date: toDatetimeLocal(g.date),
+    venue: g.venue,
+    city: g.city,
+    ticketUrl: g.ticketUrl ?? "",
+    status: g.status,
+  }));
 }

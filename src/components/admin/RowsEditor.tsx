@@ -8,8 +8,11 @@ import { FocusEditor } from "./FocusEditor";
 export interface FieldSpec {
   name: string;
   label: string;
-  type?: "text" | "url" | "select" | "image" | "video";
+  type?: "text" | "url" | "select" | "image" | "video" | "datetime";
   options?: string[];
+  /** Display label per option value, when the value itself isn't human-friendly
+   * (e.g. a project slug). Falls back to the raw value when not given. */
+  optionLabels?: Record<string, string>;
   placeholder?: string;
   wide?: boolean;
   /** For type "image": name of the sibling field in the same row that holds
@@ -75,10 +78,18 @@ export function RowsEditor({
                 >
                   {(f.options ?? []).map((o) => (
                     <option key={o} value={o}>
-                      {o}
+                      {f.optionLabels?.[o] ?? o}
                     </option>
                   ))}
                 </select>
+              ) : f.type === "datetime" ? (
+                <input
+                  name={f.name}
+                  type="datetime-local"
+                  value={row[f.name] ?? ""}
+                  onChange={(e) => update(i, f.name, e.target.value)}
+                  className="mt-0.5 bg-neutral-950 px-2 py-1 text-sm text-white [color-scheme:dark]"
+                />
               ) : f.type === "image" || f.type === "video" ? (
                 <MediaInput
                   kind={f.type}

@@ -2,12 +2,12 @@ import "server-only";
 import { unstable_cache } from "next/cache";
 import { prisma } from "@/lib/db";
 import { seedContent } from "@/content/seed";
-import type { Project, SiteContent, Social, Video, GalleryPhoto } from "@/lib/types";
+import type { Project, SiteContent, Social, Video, GalleryPhoto, Gig } from "@/lib/types";
 
 async function loadFromDb(): Promise<SiteContent | null> {
   if (!prisma) return null;
 
-  const [projectsRaw, playedAtRaw, settingsRaw] = await Promise.all([
+  const [projectsRaw, playedAtRaw, settingsRaw, gigsRaw] = await Promise.all([
     prisma.project.findMany({
       where: { enabled: true },
       orderBy: { order: "asc" },
@@ -22,6 +22,11 @@ async function loadFromDb(): Promise<SiteContent | null> {
       orderBy: { order: "asc" },
     }),
     prisma.setting.findMany(),
+    prisma.gig.findMany({
+      where: { date: { gte: new Date() }, project: { enabled: true } },
+      orderBy: { date: "asc" },
+      include: { project: { select: { slug: true, name: true, primary: true } } },
+    }),
   ]);
 
   const settings = Object.fromEntries(settingsRaw.map((s) => [s.key, s.value]));
@@ -67,6 +72,18 @@ async function loadFromDb(): Promise<SiteContent | null> {
     })),
   }));
 
+  const gigs: Gig[] = gigsRaw.map((g) => ({
+    id: g.id,
+    projectSlug: g.project.slug,
+    projectName: g.project.name,
+    projectColor: g.project.primary,
+    date: g.date.toISOString(),
+    venue: g.venue,
+    city: g.city,
+    ticketUrl: g.ticketUrl,
+    status: g.status,
+  }));
+
   const sd = seedContent.settings;
   return {
     settings: {
@@ -77,7 +94,6 @@ async function loadFromDb(): Promise<SiteContent | null> {
       contactPhone2: settings.contactPhone2 ?? sd.contactPhone2,
       contactName2: settings.contactName2 ?? sd.contactName2,
       contactEmail: settings.contactEmail ?? null,
-      bandsintownArtist: settings.bandsintownArtist ?? null,
       heroVideoProvider: (settings.heroVideoProvider as never) ?? sd.heroVideoProvider,
       heroVideoSrc: settings.heroVideoSrc ?? null,
       heroVideoPoster: settings.heroVideoPoster ?? null,
@@ -87,6 +103,7 @@ async function loadFromDb(): Promise<SiteContent | null> {
     },
     projects,
     playedAt: playedAtRaw.map((x) => ({ name: x.name, logo: x.logo, url: x.url })),
+    gigs,
   };
 }
 

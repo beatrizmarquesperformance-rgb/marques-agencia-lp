@@ -19,7 +19,6 @@ export const seedContent: SiteContent = {
     contactPhone2: "922 284 699",
     contactName2: "Tomás Marques",
     contactEmail: null,
-    bandsintownArtist: null,
     heroVideoProvider: "mp4",
     heroVideoSrc: "/media/hero.mp4",
     heroVideoPoster: "/media/hero-poster.webp",
@@ -31,6 +30,7 @@ export const seedContent: SiteContent = {
     // Populated via /admin. Examples referenced in the brief copy:
     // Rock in Rio, RFM Somnii, Viagens de Finalistas, municípios de Portugal.
   ],
+  gigs: [], // Populated via /admin → Agenda.
   projects: [
     {
       slug: "marques",

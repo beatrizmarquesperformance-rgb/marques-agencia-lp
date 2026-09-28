@@ -71,6 +71,20 @@ export interface PlayedAt {
   url: string | null;
 }
 
+export type GigStatus = "CONFIRMED" | "SOLD_OUT" | "CANCELLED";
+
+export interface Gig {
+  id: string;
+  projectSlug: string;
+  projectName: string;
+  projectColor: string;
+  date: string; // ISO
+  venue: string;
+  city: string;
+  ticketUrl: string | null;
+  status: GigStatus;
+}
+
 export interface Contact {
   name: string;
   phone: string;
@@ -84,7 +98,6 @@ export interface SiteSettings {
   contactPhone2: string | null;
   contactName2: string | null;
   contactEmail: string | null;
-  bandsintownArtist: string | null;
   heroVideoProvider: VideoProvider;
   heroVideoSrc: string | null;
   heroVideoPoster: string | null;
@@ -97,6 +110,7 @@ export interface SiteContent {
   settings: SiteSettings;
   projects: Project[];
   playedAt: PlayedAt[];
+  gigs: Gig[];
 }
 
 /* ---------- Referrals + Leads CRM ---------- */

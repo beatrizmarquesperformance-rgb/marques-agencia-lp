@@ -140,7 +140,6 @@ export async function saveSettings(fd: FormData) {
     ["contactPhone2", str(fd, "contactPhone2")],
     ["contactName2", str(fd, "contactName2")],
     ["contactEmail", str(fd, "contactEmail")],
-    ["bandsintownArtist", str(fd, "bandsintownArtist")],
     ["heroVideoProvider", str(fd, "heroVideoProvider") || "mp4"],
     ["heroVideoSrc", str(fd, "heroVideoSrc")],
     ["heroVideoPoster", str(fd, "heroVideoPoster")],
@@ -207,6 +206,44 @@ export async function savePlayedAt(fd: FormData) {
   if (rows.length) await db.playedAt.createMany({ data: rows });
   bust();
   redirect("/admin/played-at?saved=1");
+}
+
+export async function replaceGigs(fd: FormData) {
+  const db = await guard();
+  const projects = await db.project.findMany({ select: { id: true, slug: true } });
+  const slugToId = new Map(projects.map((p) => [p.slug, p.id]));
+
+  const projectSlugs = fd.getAll("projectSlug").map(String);
+  const dates = fd.getAll("date").map(String);
+  const venues = fd.getAll("venue").map(String);
+  const cities = fd.getAll("city").map(String);
+  const ticketUrls = fd.getAll("ticketUrl").map(String);
+  const statuses = fd.getAll("status").map(String);
+
+  await db.gig.deleteMany({});
+  const rows = dates
+    .map((date, i) => {
+      const projectId = slugToId.get(projectSlugs[i] ?? "");
+      const when = date ? new Date(date) : null;
+      const status = ["CONFIRMED", "SOLD_OUT", "CANCELLED"].includes(statuses[i])
+        ? (statuses[i] as "CONFIRMED" | "SOLD_OUT" | "CANCELLED")
+        : "CONFIRMED";
+      return {
+        projectId,
+        date: when,
+        venue: (venues[i] ?? "").trim(),
+        city: (cities[i] ?? "").trim(),
+        ticketUrl: (ticketUrls[i] ?? "").trim() || null,
+        status,
+      };
+    })
+    .filter(
+      (r): r is typeof r & { projectId: string; date: Date } =>
+        Boolean(r.projectId) && r.date !== null && !Number.isNaN(r.date.getTime()) && r.venue.length > 0,
+    );
+  if (rows.length) await db.gig.createMany({ data: rows });
+  bust();
+  redirect("/admin/agenda?saved=1");
 }
 
 export async function logout() {

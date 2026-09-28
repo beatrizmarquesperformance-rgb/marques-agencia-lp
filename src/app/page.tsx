@@ -4,7 +4,7 @@ import { Header } from "@/components/Header";
 import { HeroVideo } from "@/components/HeroVideo";
 import { CategoryRail } from "@/components/CategoryRail";
 import { ProjectSection } from "@/components/ProjectSection";
-import { BandsintownEvents } from "@/components/BandsintownEvents";
+import { Agenda } from "@/components/Agenda";
 import { PlayedAtWall } from "@/components/PlayedAtWall";
 import { ContactSection } from "@/components/contact/ContactSection";
 import { ContactModalProvider } from "@/components/contact/ContactModalProvider";
@@ -13,7 +13,7 @@ import { Footer } from "@/components/Footer";
 export const revalidate = 300;
 
 export default async function HomePage() {
-  const { settings, projects, playedAt } = await getContent();
+  const { settings, projects, playedAt, gigs } = await getContent();
   const visible = projects.filter((p) => p.enabled);
   const options = visible.map((p) => ({ slug: p.slug, name: p.name }));
   const contacts = contactList(settings);
@@ -41,7 +41,7 @@ export default async function HomePage() {
           />
         ))}
 
-        <BandsintownEvents />
+        <Agenda gigs={gigs} />
         <PlayedAtWall items={playedAt} />
         <ContactSection projects={options} contacts={contacts} />
       </main>

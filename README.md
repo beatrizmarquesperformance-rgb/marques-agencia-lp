@@ -2,9 +2,11 @@
 
 Single-page, art-directed landing page for the agency roster
 (**MARQUES · PIMBA À BRUTA · FUNKISS · GANGBANGERS · ZARA G**),
-plus a Bandsintown agenda, a "Já passámos por" wall, and a private `/admin`.
+plus an agenda (gigs entered by hand in `/admin`), a "Já passámos por" wall,
+and a private `/admin`.
 
-Stack: **Next.js 15 (App Router) · Tailwind v4 · Prisma + Postgres · Vercel Blob (media) · deploy to Vercel**.
+Stack: **Next.js 15 (App Router) · Tailwind v4 · Prisma + Postgres · local-disk media storage**.
+Currently self-hosted on a VPS (see `docs/` if present), not Vercel/Netlify.
 
 ---
 
@@ -35,12 +37,15 @@ npm run db:push
 npm run db:seed
 ```
 
-Now `/admin/login` works and edits persist. Public pages revalidate on save.
+Now `/login` works and edits persist. Public pages revalidate on save.
 
-### Bandsintown
+### Agenda
 
-Set `BANDSINTOWN_APP_ID` (server secret) and the artist via `BANDSINTOWN_ARTIST`
-or `/admin → Definições`. Until both exist the agenda shows a neutral "por configurar" state.
+Gigs are entered by hand in `/admin/agenda` — pick the project, date/time,
+venue, city, an optional ticket link, and a status (confirmed/sold
+out/cancelled). The public site shows every project's upcoming gigs
+together, sorted by date; a gig disappears from the public list on its own
+once its date has passed.
 
 ---
 
@@ -78,12 +83,13 @@ Blobs, served from `/api/media/...`) or paste an external URL.
 
 ---
 
-## Deploy (Vercel)
+## Deploy
 
-1. Push repo → import in Vercel.
-2. Add Vercel Postgres + Vercel Blob from the dashboard (env vars auto-injected).
-3. Add `ADMIN_PASSWORD_HASH`, `AUTH_SECRET`, `BANDSINTOWN_APP_ID`, `NEXT_PUBLIC_SITE_URL`.
-4. First deploy: run `npm run db:push && npm run db:seed` once (locally against the prod URL, or a one-off script).
+Currently self-hosted on a VPS (Node 20 + PostgreSQL + nginx + pm2), not
+Vercel/Netlify. Workflow: push to `main` on GitHub → on the server,
+`git pull && npm run build && pm2 restart marques-agencia-lp` (with
+`DATABASE_URL`/`AUTH_SECRET`/etc. already set in the server's `.env`).
+First-ever deploy needs `npm run db:push && npm run db:seed` once.
 
 ## Project map
 
@@ -91,11 +97,11 @@ Blobs, served from `/api/media/...`) or paste an external URL.
 src/
   app/
     page.tsx                 public landing page
-    api/bandsintown/route.ts server-side BIT proxy (app_id stays secret)
-    api/admin/*              login / logout
-    admin/                   dashboard, project editor, settings, played-at
-  components/                Header, ProjectSection, TornDivider, Gallery, VideoRow, …
+    api/admin/*              login / logout / upload
+    api/media/[...path]      serves admin-uploaded files (local disk, media-store/)
+    admin/                   dashboard, project editor, settings, played-at, agenda
+  components/                Header, ProjectSection, TornDivider, Gallery, VideoRow, Agenda, …
   content/seed.ts            built-in content (source of truth until DB is seeded)
-  lib/                       content loader, prisma, auth, theme, admin actions
+  lib/                       content loader, prisma, auth, theme, admin actions, focus (image crop)
 prisma/schema.prisma         fixed content model
 ```
