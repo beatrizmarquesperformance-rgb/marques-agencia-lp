@@ -79,6 +79,8 @@ export interface Gig {
   projectName: string;
   projectColor: string;
   date: string; // ISO
+  /** false => no specific hour was given; the site shows only the date. */
+  hasTime: boolean;
   venue: string;
   city: string;
   ticketUrl: string | null;

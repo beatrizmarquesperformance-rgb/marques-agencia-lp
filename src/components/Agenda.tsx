@@ -39,7 +39,7 @@ export function Agenda({ gigs }: { gigs: Gig[] }) {
                     }`}
                   >
                     <time
-                      dateTime={g.date}
+                      dateTime={g.hasTime ? g.date : g.date.slice(0, 10)}
                       className="display w-24 shrink-0 text-lg text-[var(--agency-fg)]"
                     >
                       {d.toLocaleDateString("pt-PT", { day: "2-digit", month: "short" })}
@@ -57,7 +57,12 @@ export function Agenda({ gigs }: { gigs: Gig[] }) {
                         </span>
                       </span>
                       <span className="block truncate text-sm text-[var(--agency-muted)]">
-                        {[g.city, d.toLocaleTimeString("pt-PT", { hour: "2-digit", minute: "2-digit" })]
+                        {[
+                          g.city,
+                          g.hasTime
+                            ? d.toLocaleTimeString("pt-PT", { hour: "2-digit", minute: "2-digit" })
+                            : null,
+                        ]
                           .filter(Boolean)
                           .join(" · ")}
                       </span>

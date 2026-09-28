@@ -91,10 +91,14 @@ export async function adminPlayedAt() {
   return prisma.playedAt.findMany({ orderBy: { order: "asc" } });
 }
 
-/** "YYYY-MM-DDTHH:mm" in server-local time, for an <input type="datetime-local">. */
-function toDatetimeLocal(d: Date): string {
+/** "YYYY-MM-DD" / "HH:mm" in server-local time, for <input type="date"/"time">. */
+function toDateLocal(d: Date): string {
   const pad = (n: number) => String(n).padStart(2, "0");
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+function toTimeLocal(d: Date): string {
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
 export async function adminGigs() {
@@ -105,7 +109,8 @@ export async function adminGigs() {
   });
   return rows.map((g) => ({
     projectSlug: g.project.slug,
-    date: toDatetimeLocal(g.date),
+    date: toDateLocal(g.date),
+    time: g.hasTime ? toTimeLocal(g.date) : "",
     venue: g.venue,
     city: g.city,
     ticketUrl: g.ticketUrl ?? "",

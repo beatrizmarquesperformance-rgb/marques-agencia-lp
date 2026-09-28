@@ -20,6 +20,7 @@ export default async function AgendaPage({
         <p className="mt-1 text-sm text-neutral-400">
           Datas de todos os projetos, mostradas juntas no site (ordenadas por data). Uma
           data que já passou deixa de aparecer no site sozinha — não precisas de a apagar.
+          A hora é opcional: deixa em branco e o site mostra só a data.
         </p>
       </div>
       <RowsEditor
@@ -35,7 +36,8 @@ export default async function AgendaPage({
             options: projectSlugs,
             optionLabels: projectLabels,
           },
-          { name: "date", label: "Data e hora", type: "datetime" },
+          { name: "date", label: "Data", type: "date" },
+          { name: "time", label: "Hora (opcional)", type: "time" },
           { name: "venue", label: "Recinto / local", wide: true },
           { name: "city", label: "Cidade" },
           { name: "ticketUrl", label: "Link de bilhetes", type: "url", wide: true },

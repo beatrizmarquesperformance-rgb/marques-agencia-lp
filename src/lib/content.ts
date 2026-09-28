@@ -78,6 +78,7 @@ async function loadFromDb(): Promise<SiteContent | null> {
     projectName: g.project.name,
     projectColor: g.project.primary,
     date: g.date.toISOString(),
+    hasTime: g.hasTime,
     venue: g.venue,
     city: g.city,
     ticketUrl: g.ticketUrl,

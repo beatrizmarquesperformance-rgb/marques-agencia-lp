@@ -10,7 +10,7 @@ import type { VideoProvider } from "@/lib/types";
 export interface FieldSpec {
   name: string;
   label: string;
-  type?: "text" | "url" | "select" | "image" | "video" | "datetime";
+  type?: "text" | "url" | "select" | "image" | "video" | "datetime" | "date" | "time";
   options?: string[];
   /** Display label per option value, when the value itself isn't human-friendly
    * (e.g. a project slug). Falls back to the raw value when not given. */
@@ -125,10 +125,10 @@ export function RowsEditor({
                     </option>
                   ))}
                 </select>
-              ) : f.type === "datetime" ? (
+              ) : f.type === "datetime" || f.type === "date" || f.type === "time" ? (
                 <input
                   name={f.name}
-                  type="datetime-local"
+                  type={f.type === "datetime" ? "datetime-local" : f.type}
                   value={row[f.name] ?? ""}
                   onChange={(e) => update(i, f.name, e.target.value)}
                   className="mt-0.5 bg-neutral-950 px-2 py-1 text-sm text-white [color-scheme:dark]"

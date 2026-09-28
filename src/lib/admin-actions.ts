@@ -215,6 +215,7 @@ export async function replaceGigs(fd: FormData) {
 
   const projectSlugs = fd.getAll("projectSlug").map(String);
   const dates = fd.getAll("date").map(String);
+  const times = fd.getAll("time").map(String);
   const venues = fd.getAll("venue").map(String);
   const cities = fd.getAll("city").map(String);
   const ticketUrls = fd.getAll("ticketUrl").map(String);
@@ -224,13 +225,18 @@ export async function replaceGigs(fd: FormData) {
   const rows = dates
     .map((date, i) => {
       const projectId = slugToId.get(projectSlugs[i] ?? "");
-      const when = date ? new Date(date) : null;
+      const hasTime = Boolean(times[i]);
+      // "T" + time (no offset) so this is parsed as local time, not UTC —
+      // matters even without a time, since a bare "YYYY-MM-DD" is UTC-parsed
+      // and could land on the wrong calendar day once formatted locally.
+      const when = date ? new Date(`${date}T${times[i] || "00:00"}`) : null;
       const status = ["CONFIRMED", "SOLD_OUT", "CANCELLED"].includes(statuses[i])
         ? (statuses[i] as "CONFIRMED" | "SOLD_OUT" | "CANCELLED")
         : "CONFIRMED";
       return {
         projectId,
         date: when,
+        hasTime,
         venue: (venues[i] ?? "").trim(),
         city: (cities[i] ?? "").trim(),
         ticketUrl: (ticketUrls[i] ?? "").trim() || null,
