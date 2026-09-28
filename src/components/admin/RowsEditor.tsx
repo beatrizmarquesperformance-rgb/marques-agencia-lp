@@ -4,6 +4,8 @@ import { useRef, useState } from "react";
 import { uploadImage, uploadVideo } from "@/lib/upload-client";
 import { useUploadGuard } from "./UploadGuard";
 import { FocusEditor } from "./FocusEditor";
+import { VIDEO_PROVIDER_ADMIN_INFO } from "@/lib/video";
+import type { VideoProvider } from "@/lib/types";
 
 export interface FieldSpec {
   name: string;
@@ -20,6 +22,10 @@ export interface FieldSpec {
   focusField?: string;
   /** Aspect ratio (CSS value, e.g. "3 / 4") the focus editor preview should use. */
   focusAspect?: string;
+  /** For type "video": name of the sibling field holding the provider
+   * (mp4/youtube/vimeo/mux/cloudflare) — swaps the label/placeholder and
+   * hides the upload button for providers that take an ID, not a file. */
+  providerField?: string;
 }
 
 type Row = Record<string, string>;
@@ -95,12 +101,17 @@ export function RowsEditor({
             </div>
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
-          {fields.map((f) => (
+          {fields.map((f) => {
+            const providerInfo =
+              f.type === "video" && f.providerField
+                ? VIDEO_PROVIDER_ADMIN_INFO[row[f.providerField] as VideoProvider]
+                : undefined;
+            return (
             <label
               key={f.name}
               className={`flex flex-col text-xs text-neutral-400 ${f.wide ? "sm:col-span-2" : ""}`}
             >
-              {f.label}
+              {providerInfo?.label ?? f.label}
               {f.type === "select" ? (
                 <select
                   name={f.name}
@@ -131,6 +142,8 @@ export function RowsEditor({
                   focusName={f.focusField}
                   focusDefaultValue={f.focusField ? row[f.focusField] : undefined}
                   focusAspect={f.focusAspect}
+                  uploadEnabled={providerInfo?.upload}
+                  placeholder={providerInfo?.placeholder}
                 />
               ) : (
                 <input
@@ -144,7 +157,8 @@ export function RowsEditor({
                 />
               )}
             </label>
-          ))}
+            );
+          })}
           </div>
         </div>
       ))}
@@ -176,6 +190,8 @@ function MediaInput({
   focusName,
   focusDefaultValue,
   focusAspect,
+  uploadEnabled,
+  placeholder,
 }: {
   kind: "image" | "video";
   name: string;
@@ -184,10 +200,15 @@ function MediaInput({
   focusName?: string;
   focusDefaultValue?: string;
   focusAspect?: string;
+  /** Set to false for video providers that take an ID, not a file
+   * (youtube/vimeo/mux/cloudflare) — hides the upload button entirely. */
+  uploadEnabled?: boolean;
+  placeholder?: string;
 }) {
   const ref = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
   const guard = useUploadGuard();
+  const canUpload = uploadEnabled ?? true;
 
   async function send(file: File) {
     setBusy(true);
@@ -217,17 +238,19 @@ function MediaInput({
           inputMode="url"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder={kind === "video" ? "URL/ID ou carregar MP4 →" : "URL ou carregar →"}
+          placeholder={placeholder ?? (kind === "video" ? "URL/ID ou carregar MP4 →" : "URL ou carregar →")}
           className="w-full bg-neutral-950 px-2 py-1 text-sm text-white"
         />
-        <button
-          type="button"
-          onClick={() => ref.current?.click()}
-          disabled={busy}
-          className="shrink-0 border border-neutral-700 px-2 py-1 text-white hover:bg-neutral-800 disabled:opacity-50"
-        >
-          {busy ? "…" : "⬆︎"}
-        </button>
+        {canUpload && (
+          <button
+            type="button"
+            onClick={() => ref.current?.click()}
+            disabled={busy}
+            className="shrink-0 border border-neutral-700 px-2 py-1 text-white hover:bg-neutral-800 disabled:opacity-50"
+          >
+            {busy ? "…" : "⬆︎"}
+          </button>
+        )}
       </span>
       {showsFocusEditor && (
         <FocusEditor
@@ -237,6 +260,7 @@ function MediaInput({
           aspect={focusAspect}
         />
       )}
+      {canUpload && (
       <input
         ref={ref}
         type="file"
@@ -248,6 +272,7 @@ function MediaInput({
           e.target.value = "";
         }}
       />
+      )}
     </span>
   );
 }

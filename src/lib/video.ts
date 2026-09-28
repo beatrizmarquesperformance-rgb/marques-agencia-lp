@@ -68,3 +68,36 @@ export function embedSrc(
 export function usesIframe(provider: VideoProvider): boolean {
   return provider === "youtube" || provider === "vimeo";
 }
+
+/** Admin form copy per provider — only "mp4" is an uploadable file; every
+ * other provider is an ID/playback-id typed or pasted by hand. */
+export const VIDEO_PROVIDER_ADMIN_INFO: Record<
+  VideoProvider,
+  { label: string; placeholder: string; upload: boolean }
+> = {
+  mp4: {
+    label: "Vídeo — cola um URL ou carrega um ficheiro (≤ 4 MB)",
+    placeholder: "URL do ficheiro .mp4",
+    upload: true,
+  },
+  youtube: {
+    label: "ID do vídeo do YouTube",
+    placeholder: "ex: dQw4w9WgXcQ (não o link todo)",
+    upload: false,
+  },
+  vimeo: {
+    label: "ID do vídeo do Vimeo",
+    placeholder: "ex: 123456789",
+    upload: false,
+  },
+  mux: {
+    label: "Playback ID (Mux)",
+    placeholder: "ex: AbCdEfGhijk...",
+    upload: false,
+  },
+  cloudflare: {
+    label: "ID do vídeo (Cloudflare Stream)",
+    placeholder: "ex: 31c9291d4f...",
+    upload: false,
+  },
+};

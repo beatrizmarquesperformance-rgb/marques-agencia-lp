@@ -221,9 +221,10 @@ export default async function ProjectEditPage({
             },
             {
               name: "src",
-              label: "Vídeo (URL, ID do YouTube/Vimeo, ou carrega um MP4)",
+              label: "Vídeo",
               type: "video",
               wide: true,
+              providerField: "provider",
             },
             {
               name: "poster",
