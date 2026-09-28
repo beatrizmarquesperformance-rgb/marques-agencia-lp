@@ -48,7 +48,10 @@ export function ContactModal({
     document.addEventListener("keydown", onKey);
     return () => {
       document.removeEventListener("keydown", onKey);
-      lastFocused.current?.focus?.();
+      // preventScroll: useLockBodyScroll's cleanup (runs just before this one)
+      // already restored the exact scroll position — don't let the browser's
+      // default focus-scroll heuristic nudge it again.
+      lastFocused.current?.focus?.({ preventScroll: true });
     };
   }, [onClose]);
 

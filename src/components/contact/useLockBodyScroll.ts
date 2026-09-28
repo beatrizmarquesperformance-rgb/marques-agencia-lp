@@ -30,7 +30,11 @@ export function useLockBodyScroll(locked: boolean) {
       body.style.width = prev.width;
       body.style.paddingRight = prev.paddingRight;
       body.style.overflow = prev.overflow;
-      window.scrollTo(0, scrollY);
+      // `html { scroll-behavior: smooth }` is global — the plain (x, y) form of
+      // scrollTo respects it, so restoring the pre-lock position would ANIMATE
+      // back instead of snapping instantly (visible as a "rollback" jump/glide
+      // when the modal closes). Force an instant jump regardless of that CSS.
+      window.scrollTo({ top: scrollY, left: 0, behavior: "instant" });
     };
   }, [locked]);
 }
