@@ -36,13 +36,41 @@ async function toOptimisedBlob(file: File): Promise<{ blob: Blob; ext: string }>
   return { blob, ext: "webp" };
 }
 
+/**
+ * Fallback messages for failures that never reach our own route handler (so
+ * there's no JSON `.error` to show) — e.g. nginx rejecting an oversized
+ * request before it gets to Next.js. Every status the admin can plausibly
+ * hit should read as a sentence, not a bare number.
+ */
+const STATUS_FALLBACK: Record<number, string> = {
+  401: "A tua sessão expirou — recarrega a página, entra outra vez e tenta de novo.",
+  404: "O servidor não encontrou o endereço de upload (pode estar desatualizado — recarrega a página).",
+  413: "Ficheiro demasiado grande para o servidor aceitar.",
+  415: "Tipo de ficheiro não suportado.",
+  422: "Não foi possível processar este ficheiro — tenta converter para JPG ou PNG.",
+  500: "Erro interno do servidor ao guardar o ficheiro.",
+  502: "O servidor da aplicação não respondeu (pode estar a reiniciar) — espera uns segundos e tenta de novo.",
+  503: "Armazenamento indisponível no servidor.",
+  504: "O servidor demorou demasiado tempo a responder — tenta de novo.",
+};
+
 async function postToBlob(blob: Blob, filename: string): Promise<string> {
   const form = new FormData();
   form.append("file", blob, filename);
-  const res = await fetch("/api/admin/upload", { method: "POST", body: form });
+
+  let res: Response;
+  try {
+    res = await fetch("/api/admin/upload", { method: "POST", body: form });
+  } catch {
+    throw new Error(
+      "Não foi possível contactar o servidor — verifica a tua ligação à internet e tenta de novo.",
+    );
+  }
+
   const data = (await res.json().catch(() => ({}))) as { url?: string; error?: string };
   if (!res.ok || !data.url) {
-    throw new Error(data.error || `Falha no upload (${res.status})`);
+    const fallback = STATUS_FALLBACK[res.status] ?? `Falha no upload — erro inesperado do servidor (código ${res.status}).`;
+    throw new Error(data.error || fallback);
   }
   return data.url;
 }
